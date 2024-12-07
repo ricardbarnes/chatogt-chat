@@ -1,0 +1,71 @@
+services:
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - 80:8080
+    depends_on:
+      - producer
+      - consumer
+    networks:
+      - chatogt
+    environment:
+      - API_APP_PORT=${API_APP_PORT}
+
+  consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    depends_on:
+      - producer
+    networks:
+      - chatogt
+
+  producer:
+    build:
+      context: .
+      dockerfile: producer/Dockerfile
+    networks:
+      - chatogt
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - 27020:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_INIT_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INIT_ROOT_PASSWORD}
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    ports:
+      - 22181:2181
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=${ZOOKEEPER_CLIENT_PORT}
+      - ZOOKEEPER_TICK_TIME=${ZOOKEEPER_TICK_TIME}
+
+  kafka:
+    image: confluentinc/cp-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      - KAFKA_BROKER_ID=${KAFKA_BROKER_ID}
+      - KAFKA_ZOOKEEPER_CONNECT=${KAFKA_ZOOKEEPER_CONNECT}
+      - KAFKA_ADVERTISED_LISTENERS=${KAFKA_ADVERTISED_LISTENERS}
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP}
+      - KAFKA_INTER_BROKER_LISTENER_NAME=${KAFKA_INTER_BROKER_LISTENER_NAME}
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+
+networks:
+  chatogt:
+    driver: bridge
+
+volumes:
+  mongodb_data:

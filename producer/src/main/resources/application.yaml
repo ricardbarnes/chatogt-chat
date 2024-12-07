@@ -1,0 +1,16 @@
+bus:
+  command:
+    socket:
+      server:
+        port: ${SOCKET_COMMAND_BUS_PORT}
+  query:
+    socket:
+      server:
+        port: ${SOCKET_QUERY_BUS_PORT}
+
+consumer:
+  bus:
+    event:
+      socket:
+        host: ${SOCKET_EVENT_BUS_HOST}
+        port: ${SOCKET_EVENT_BUS_PORT}
