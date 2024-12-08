@@ -1,13 +1,2 @@
-producer:
-  bus:
-    command:
-      socket:
-        host: ${SOCKET_COMMAND_BUS_HOST}
-        port: ${SOCKET_COMMAND_BUS_PORT}
-    query:
-      socket:
-        host: ${SOCKET_QUERY_BUS_HOST}
-        port: ${SOCKET_QUERY_BUS_PORT}
-
 server:
-  port: ${API_APP_PORT}
+  port: ${API_APP_PORT:8080}
