@@ -18,26 +18,22 @@ class RestChatController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody dto: RestChatDto) {
+    fun create(@RequestBody dto: RestChatDto) =
         commandBus.dispatch(mapper.toCreateCommand(dto))
-    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) {
+    fun delete(@PathVariable id: UUID) =
         commandBus.dispatch(mapper.toDeleteCommand(id))
-    }
 
     @GetMapping("/{userId}")
     @ResponseStatus(HttpStatus.OK)
-    fun find(@PathVariable userId: UUID): RestChatDto {
-        return mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(userId)))
-    }
+    fun find(@PathVariable userId: UUID): RestChatDto =
+        mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(userId)))
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun update(@RequestBody dto: RestChatDto) {
+    fun update(@RequestBody dto: RestChatDto) =
         commandBus.dispatch(mapper.toUpdateCommand(dto))
-    }
 
 }

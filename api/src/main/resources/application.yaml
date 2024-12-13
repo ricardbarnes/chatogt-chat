@@ -1,2 +1,11 @@
 server:
   port: ${API_APP_PORT:8080}
+
+spring:
+  kafka:
+    bootstrap-servers: "localhost:29092"
+
+kafka:
+  topics:
+    commands: "commands"
+    queries: "queries"

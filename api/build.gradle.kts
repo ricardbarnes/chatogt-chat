@@ -19,4 +19,5 @@ dependencies {
     implementation(project(":shared:infrastructure"))
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.apache.kafka:kafka-clients:3.9.0")
 }
