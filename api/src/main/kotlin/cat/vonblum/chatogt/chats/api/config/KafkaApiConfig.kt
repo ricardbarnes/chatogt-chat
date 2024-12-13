@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.api.config
 
-import cat.vonblum.chatogt.chats.api.command.KafkaCreateChatCommand
+import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import cat.vonblum.chatogt.chats.api.serializer.KafkaCreateChatCommandSerializer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration
 import java.util.*
 
 @Configuration
-class KafkaConfig {
+class KafkaApiConfig {
 
     @Bean
     fun kafkaCommandTopic(@Value("\${kafka.topics.commands}") kafkaCommandTopic: String): String {

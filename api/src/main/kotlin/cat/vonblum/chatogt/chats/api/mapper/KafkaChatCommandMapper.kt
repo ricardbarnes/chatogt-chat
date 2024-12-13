@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
-import cat.vonblum.chatogt.chats.api.command.KafkaCreateChatCommand
+import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
 import org.springframework.stereotype.Component
 

@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.api.serializer
 
-import cat.vonblum.chatogt.chats.api.command.KafkaCreateChatCommand
+import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import org.apache.kafka.common.serialization.Serializer
 
 class KafkaCreateChatCommandSerializer : Serializer<KafkaCreateChatCommand> {

@@ -1,16 +1,11 @@
-bus:
-  command:
-    socket:
-      server:
-        port: ${SOCKET_COMMAND_BUS_PORT}
-  query:
-    socket:
-      server:
-        port: ${SOCKET_QUERY_BUS_PORT}
+server:
+  port: ${APPLICATION_PORT:8080}
 
-consumer:
-  bus:
-    event:
-      socket:
-        host: ${SOCKET_EVENT_BUS_HOST}
-        port: ${SOCKET_EVENT_BUS_PORT}
+kafka:
+  topics:
+    commands: "commands"
+    queries: "queries"
+
+spring:
+  kafka:
+    bootstrap-servers: "localhost:29092"

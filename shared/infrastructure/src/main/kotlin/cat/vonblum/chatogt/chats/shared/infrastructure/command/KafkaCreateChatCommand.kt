@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.api.command
+package cat.vonblum.chatogt.chats.shared.infrastructure.command
 
 import java.util.UUID
 

@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.api.bus
 
-import cat.vonblum.chatogt.chats.api.command.KafkaCreateChatCommand
+import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatCommandMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageCommandMapper
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
