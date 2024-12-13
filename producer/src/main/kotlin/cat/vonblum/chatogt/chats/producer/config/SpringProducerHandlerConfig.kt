@@ -5,7 +5,7 @@ import cat.vonblum.chatogt.chats.chat.ChatRepository
 import cat.vonblum.chatogt.chats.chat.delete.DeleteChatCommandHandler
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommandHandler
 import cat.vonblum.chatogt.chats.chat.find.FindChatIdsQueryHandler
-import cat.vonblum.chatogt.chats.chat.update.MuteChatCommandHandler
+import cat.vonblum.chatogt.chats.chat.update.UpdateChatCommandHandler
 import cat.vonblum.chatogt.chats.chat.update.UnmuteChatCommandHandler
 import cat.vonblum.chatogt.chats.message.MessageProvider
 import cat.vonblum.chatogt.chats.message.MessageRepository
@@ -33,7 +33,7 @@ class SpringProducerHandlerConfig {
     @Bean
     fun handlers(
         createChatCommandHandler: CreateChatCommandHandler,
-        muteChatCommandHandler: MuteChatCommandHandler,
+        updateChatCommandHandler: UpdateChatCommandHandler,
         unmuteChatCommandHandler: UnmuteChatCommandHandler,
         deleteChatCommandHandler: DeleteChatCommandHandler,
         findChatIdsQueryHandler: FindChatIdsQueryHandler,
@@ -45,7 +45,7 @@ class SpringProducerHandlerConfig {
     ): List<Any> {
         return listOf(
             createChatCommandHandler,
-            muteChatCommandHandler,
+            updateChatCommandHandler,
             unmuteChatCommandHandler,
             deleteChatCommandHandler,
             findChatIdsQueryHandler,
@@ -75,8 +75,8 @@ class SpringProducerHandlerConfig {
         chatRepository: ChatRepository,
         chatProvider: ChatProvider,
         eventBus: EventBus,
-    ): MuteChatCommandHandler {
-        return MuteChatCommandHandler(
+    ): UpdateChatCommandHandler {
+        return UpdateChatCommandHandler(
             chatRepository,
             chatProvider,
             eventBus
