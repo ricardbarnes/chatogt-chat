@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration
 import java.util.*
 
 @Configuration
-class KafkaApiConfig {
+class SpringKafkaApiConfig {
 
     @Bean
     fun kafkaCommandTopic(@Value("\${kafka.topics.commands}") kafkaCommandTopic: String): String {
