@@ -1,16 +1,12 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
-import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
+import com.google.gson.Gson
 import org.springframework.stereotype.Component
 
 @Component
-class KafkaChatCommandMapper {
+class KafkaChatCommandMapper(private val gson: Gson) {
 
-    fun toDto(command: CreateChatCommand): KafkaCreateChatCommand =
-        KafkaCreateChatCommand(
-            command.id(),
-            command.userId()
-        )
+    fun toDto(command: CreateChatCommand): String = gson.toJson(command)
 
 }

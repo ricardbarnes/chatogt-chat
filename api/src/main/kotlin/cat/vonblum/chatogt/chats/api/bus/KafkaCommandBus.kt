@@ -1,6 +1,5 @@
 package cat.vonblum.chatogt.chats.api.bus
 
-import cat.vonblum.chatogt.chats.shared.infrastructure.command.KafkaCreateChatCommand
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatCommandMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageCommandMapper
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
@@ -15,7 +14,7 @@ import java.util.UUID
 class KafkaCommandBus(
     private val chatMapper: KafkaChatCommandMapper,
     private val messageMapper: KafkaMessageCommandMapper,
-    private val producer: KafkaProducer<UUID, KafkaCreateChatCommand>,
+    private val producer: KafkaProducer<UUID, String>,
     private val topic: String
 ) : CommandBus {
 
