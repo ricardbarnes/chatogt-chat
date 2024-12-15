@@ -13,10 +13,7 @@ class KafkaCreateChatCommandHandler(
     private val handler: CreateChatCommandHandler
 ) {
 
-    @KafkaListener(
-        topics = ["\${kafka.topics.commands}"],
-        groupId = "\${spring.kafka.consumer.group-id}"
-    )
+    @KafkaListener(topics = ["\${kafka.topics.commands}"],)
     fun handle(record: ConsumerRecord<UUID, String>) {
         handler.handle(mapper.toDomain(record.value()))
     }

@@ -33,7 +33,6 @@ class KafkaCommandBus(
                 chatMapper.toDto(command)
             )
         ).get()
-        producer.close()
     }
 
 }

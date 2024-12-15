@@ -13,9 +13,7 @@ class KafkaEventHandler(
     private val store: EventWriteStore
 ) {
 
-    @KafkaListener(
-        topics = ["\${kafka.topics.events}"]
-    )
+    @KafkaListener(topics = ["\${kafka.topics.events}"],)
     fun handle(record: ConsumerRecord<UUID, String>) {
         store.save(mapper.toDomain(record.value()))
     }
