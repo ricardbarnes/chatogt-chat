@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class KafkaEventBus : EventBus {
 
     override fun publish(events: List<Event>) {
-        TODO("Not yet implemented")
+        println("Publishing events: $events")
     }
 
 }
