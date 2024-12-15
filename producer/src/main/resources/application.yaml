@@ -5,6 +5,8 @@ kafka:
   topics:
     commands: "commands"
     queries: "queries"
+  group:
+    id: chat-group
 
 spring:
   kafka:

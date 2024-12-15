@@ -12,7 +12,7 @@ class KafkaCreateChatCommandHandler(private val gson: Gson) {
 
     @KafkaListener(
         topics = ["\${kafka.topics.commands}"],
-        groupId = "chat-command-group"
+        groupId = "\${kafka.group.id}"
     )
     fun handle(record: ConsumerRecord<UUID, String>) {
         val value = record.value()
