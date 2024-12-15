@@ -17,5 +17,7 @@ dependencies {
     implementation(project(":shared:domain"))
     implementation(project(":shared:infrastructure"))
     implementation("org.springframework.boot:spring-boot-starter")
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -3,12 +3,16 @@ package cat.vonblum.chatogt.chats.shared.domain.event
 import java.time.Instant
 import java.util.*
 
-interface Event {
+abstract class Event(
+    private val aggregateId: UUID,
+    private val id: UUID,
+    private val occurredOn: Instant,
+) {
 
-    val aggregateId: UUID
+    fun aggregateId(): UUID = aggregateId
 
-    var id: UUID
+    fun id(): UUID = id
 
-    val occurredOn: Instant
+    fun occurredOn(): Instant = occurredOn
 
 }

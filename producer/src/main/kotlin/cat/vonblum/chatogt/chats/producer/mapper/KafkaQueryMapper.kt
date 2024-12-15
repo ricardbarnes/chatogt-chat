@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import org.springframework.stereotype.Component
 
 @Component
-class KafkaMapper(private val gson: Gson) {
+class KafkaQueryMapper(private val gson: Gson) {
 
     fun toDomain(obj: Any): CreateChatCommand {
         return gson.fromJson(obj.toString(), CreateChatCommand::class.java)

@@ -5,7 +5,7 @@ import java.time.Instant
 import java.util.*
 
 class ChatUnmutedEvent(
-    override val aggregateId: UUID,
-    override var id: UUID = UUID.randomUUID(),
-    override val occurredOn: Instant = Instant.now()
-) : Event
+    aggregateId: UUID,
+    id: UUID = UUID.randomUUID(),
+    occurredOn: Instant = Instant.now()
+) : Event(aggregateId, id, occurredOn)

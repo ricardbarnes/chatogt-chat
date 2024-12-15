@@ -1,5 +1,13 @@
-bus:
-  event:
-    socket:
-      server:
-        port: ${SOCKET_EVENT_BUS_PORT}
+server:
+  port: ${APPLICATION_PORT:8080}
+
+kafka:
+  topics:
+    events: "events"
+
+spring:
+  kafka:
+    bootstrap-servers: "localhost:29092"
+    consumer:
+      group-id: "chat-consumers"
+      auto-offset-reset: earliest

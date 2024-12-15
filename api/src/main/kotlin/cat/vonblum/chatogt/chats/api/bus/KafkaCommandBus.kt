@@ -7,6 +7,7 @@ import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
 
@@ -15,7 +16,7 @@ class KafkaCommandBus(
     private val chatMapper: KafkaChatCommandMapper,
     private val messageMapper: KafkaMessageCommandMapper,
     private val producer: KafkaProducer<UUID, String>,
-    private val topic: String
+    @Value("\${kafka.topics.commands}") private val topic: String
 ) : CommandBus {
 
     override fun dispatch(command: Command) {
