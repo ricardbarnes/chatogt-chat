@@ -25,9 +25,7 @@ class SpringProducerKafkaConfig {
         return mapOf(
             ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
             ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to UUIDDeserializer::class.java.name,
-            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
-            ConsumerConfig.GROUP_ID_CONFIG to "test-group",
-            ConsumerConfig.AUTO_OFFSET_RESET_CONFIG to "earliest"
+            ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name
         )
     }
 

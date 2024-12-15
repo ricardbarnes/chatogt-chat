@@ -5,9 +5,10 @@ kafka:
   topics:
     commands: "commands"
     queries: "queries"
-  group:
-    id: chat-group
 
 spring:
   kafka:
     bootstrap-servers: "localhost:29092"
+    consumer:
+      group-id: "chat-consumers"
+      auto-offset-reset: earliest
