@@ -4,10 +4,10 @@ import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.domain.aggregate.AggregateRoot
 
 class Message(
-    private val id: MessageId,
-    private val chatId: ChatId,
-    private var content: MessageContent,
-    private var status: MessageStatus = MessageStatus.NORMAL,
+    val id: MessageId,
+    val chatId: ChatId,
+    private var _content: MessageContent,
+    private var _status: MessageStatus = MessageStatus.NORMAL,
 ) : AggregateRoot() {
 
     companion object {
@@ -17,18 +17,14 @@ class Message(
 
     }
 
-    fun id(): MessageId = id
+    val content get() = _content
 
-    fun chatId(): ChatId = chatId
+    val status get() = _status
 
-    fun content(): MessageContent = content
+    fun star() = { _status = MessageStatus.STARRED }.also { record(MessageStarredEvent(id.value)) }
 
-    fun status(): MessageStatus = status
+    fun delete() = { _status = MessageStatus.DELETED }.also { record(MessageDeletedEvent(id.value)) }
 
-    fun star() = { status = MessageStatus.STARRED }.also { record(MessageStarredEvent(id.value)) }
-
-    fun delete() = { status = MessageStatus.DELETED }.also { record(MessageDeletedEvent(id.value)) }
-
-    fun update(content: MessageContent) = this.apply { this.content = content }
+    fun update(content: MessageContent) = this.apply { this._content = content }
 
 }
