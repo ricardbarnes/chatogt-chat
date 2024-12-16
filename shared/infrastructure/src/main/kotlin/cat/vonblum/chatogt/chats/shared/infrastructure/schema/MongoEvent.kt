@@ -6,7 +6,7 @@ import java.time.Instant
 
 @Document
 abstract class MongoEvent(
-    @Id private val id: String,
+    @Id val id: String,
     val aggregateId: String,
     val occurredOn: Instant,
 )
