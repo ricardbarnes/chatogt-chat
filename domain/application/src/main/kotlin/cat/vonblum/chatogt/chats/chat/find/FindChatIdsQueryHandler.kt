@@ -8,8 +8,8 @@ class FindChatIdsQueryHandler(private val repository: ChatRepository) : QueryHan
 
     fun handle(query: FindChatIdsQuery): FindChatIdsResponse =
         FindChatIdsResponse(
-            query.userId(),
-            repository.findAllIdsByUserId(UserId(query.userId())).map { it.value }
+            query.userId,
+            repository.findAllIdsByUserId(UserId(query.userId)).map { it.value }
         )
 
 }

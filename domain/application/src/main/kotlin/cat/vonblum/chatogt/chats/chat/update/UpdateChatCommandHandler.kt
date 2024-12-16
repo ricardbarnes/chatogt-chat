@@ -12,7 +12,7 @@ class UpdateChatCommandHandler(
     private val eventBus: EventBus
 ) : CommandHandler {
 
-    fun handle(command: UpdateChatCommand) = repository.findById(ChatId(command.id())).let { chat ->
+    fun handle(command: UpdateChatCommand) = repository.findById(ChatId(command.id)).let { chat ->
         chat.mute()
         provider.send(chat)
         eventBus.publish(chat.pullEvents())

@@ -8,8 +8,8 @@ class FindMessageIdsQueryHandler(private val repository: MessageRepository) : Qu
 
     fun handle(query: FindMessageIdsQuery): FindMessageIdsResponse =
         FindMessageIdsResponse(
-            query.chatId(),
-            repository.findAllIdsByChatId(ChatId(query.chatId())).map { it.value }
+            query.chatId,
+            repository.findAllIdsByChatId(ChatId(query.chatId)).map { it.value }
         )
 
 }

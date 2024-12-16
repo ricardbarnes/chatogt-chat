@@ -13,8 +13,8 @@ class UpdateMessageCommandHandler(
     private val eventBus: EventBus
 ) : CommandHandler {
 
-    fun handle(command: UpdateMessageCommand) = repository.findById(MessageId(command.id())).let { message ->
-        message.update(MessageContent(command.content()))
+    fun handle(command: UpdateMessageCommand) = repository.findById(MessageId(command.id)).let { message ->
+        message.update(MessageContent(command.content))
         provider.send(message)
         eventBus.publish(message.pullEvents())
     }

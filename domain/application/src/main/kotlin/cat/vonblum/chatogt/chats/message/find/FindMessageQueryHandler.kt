@@ -8,8 +8,8 @@ class FindMessageQueryHandler(private val repository: MessageRepository) : Query
 
     fun handle(query: FindMessageQuery): FindMessageResponse =
         FindMessageResponse(
-            query.id(),
-            repository.findById(MessageId(query.id())).content().value()
+            query.id,
+            repository.findById(MessageId(query.id)).content().value()
         )
 
 }

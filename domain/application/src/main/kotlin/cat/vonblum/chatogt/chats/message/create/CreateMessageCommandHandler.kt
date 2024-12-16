@@ -14,9 +14,9 @@ class CreateMessageCommandHandler(
 ) : CommandHandler {
 
     fun handle(command: CreateMessageCommand) = Message.create(
-        MessageId(command.id()),
-        ChatId(command.chatId()),
-        MessageContent(command.content())
+        MessageId(command.id),
+        ChatId(command.chatId),
+        MessageContent(command.content)
     ).let { message ->
         provider.send(message)
         eventBus.publish(message.pullEvents())

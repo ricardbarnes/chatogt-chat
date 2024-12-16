@@ -13,8 +13,8 @@ class CreateChatCommandHandler(
 ) : CommandHandler {
 
     fun handle(command: CreateChatCommand) = Chat.create(
-        ChatId(command.id()),
-        UserId(command.userId()),
+        ChatId(command.id),
+        UserId(command.userId),
     ).let { chat ->
         provider.send(chat)
         eventBus.publish(chat.pullEvents())

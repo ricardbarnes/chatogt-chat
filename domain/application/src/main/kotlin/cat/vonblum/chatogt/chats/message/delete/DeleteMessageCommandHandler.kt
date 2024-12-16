@@ -12,7 +12,7 @@ class DeleteMessageCommandHandler(
     private val eventBus: EventBus
 ) : CommandHandler {
 
-    fun handle(command: DeleteMessageCommand) = repository.findById(MessageId(command.id())).let { message ->
+    fun handle(command: DeleteMessageCommand) = repository.findById(MessageId(command.id)).let { message ->
         message.delete()
         provider.send(message)
         eventBus.publish(message.pullEvents())

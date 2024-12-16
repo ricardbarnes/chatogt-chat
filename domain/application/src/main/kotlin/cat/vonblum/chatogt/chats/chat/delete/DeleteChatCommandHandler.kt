@@ -12,7 +12,7 @@ class DeleteChatCommandHandler(
     private val eventBus: EventBus
 ) : CommandHandler {
 
-    fun handle(command: DeleteChatCommand) = repository.findById(ChatId(command.id())).let { chat ->
+    fun handle(command: DeleteChatCommand) = repository.findById(ChatId(command.id)).let { chat ->
         chat.delete()
         provider.send(chat)
         eventBus.publish(chat.pullEvents())

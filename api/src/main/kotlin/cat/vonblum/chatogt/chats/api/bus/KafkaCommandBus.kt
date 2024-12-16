@@ -29,7 +29,7 @@ class KafkaCommandBus(
         producer.send(
             ProducerRecord(
                 topic,
-                command.id(),
+                command.id,
                 chatMapper.toDto(command)
             )
         ).get()
