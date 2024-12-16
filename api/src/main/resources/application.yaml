@@ -3,9 +3,9 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: "localhost:29092"
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
 
 kafka:
   topics:
-    commands: "commands"
-    queries: "queries"
+    commands: commands
+    queries: queries

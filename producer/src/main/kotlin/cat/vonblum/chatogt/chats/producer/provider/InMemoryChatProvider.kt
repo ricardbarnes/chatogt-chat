@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class InMemoryChatProvider : ChatProvider {
 
     override fun send(chat: Chat) {
-        println("sending order $chat")
+        println("sending chat $chat to FBI")
     }
 
 }
