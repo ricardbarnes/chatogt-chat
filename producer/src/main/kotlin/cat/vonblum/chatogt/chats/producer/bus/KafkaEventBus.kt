@@ -21,7 +21,7 @@ class KafkaEventBus(
             producer.send(
                 ProducerRecord(
                     topic,
-                    event.id(),
+                    event.id,
                     mapper.toKafkaDto(event)
                 )
             )
