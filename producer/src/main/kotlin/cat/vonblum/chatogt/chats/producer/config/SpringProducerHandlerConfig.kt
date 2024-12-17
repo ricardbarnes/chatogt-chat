@@ -4,7 +4,7 @@ import cat.vonblum.chatogt.chats.chat.ChatProvider
 import cat.vonblum.chatogt.chats.chat.ChatRepository
 import cat.vonblum.chatogt.chats.chat.delete.DeleteChatCommandHandler
 import cat.vonblum.chatogt.chats.chat.create.CreateChatCommandHandler
-import cat.vonblum.chatogt.chats.chat.find.FindChatIdsQueryHandler
+import cat.vonblum.chatogt.chats.chat.find.FindChatQueryHandler
 import cat.vonblum.chatogt.chats.chat.update.UpdateChatCommandHandler
 import cat.vonblum.chatogt.chats.message.MessageProvider
 import cat.vonblum.chatogt.chats.message.MessageRepository
@@ -34,7 +34,7 @@ class SpringProducerHandlerConfig {
         createChatCommandHandler: CreateChatCommandHandler,
         updateChatCommandHandler: UpdateChatCommandHandler,
         deleteChatCommandHandler: DeleteChatCommandHandler,
-        findChatIdsQueryHandler: FindChatIdsQueryHandler,
+        findChatQueryHandler: FindChatQueryHandler,
         createMessageCommandHandler: CreateMessageCommandHandler,
         deleteMessageCommandHandler: DeleteMessageCommandHandler,
         findMessageIdsQueryHandler: FindMessageIdsQueryHandler,
@@ -45,7 +45,7 @@ class SpringProducerHandlerConfig {
             createChatCommandHandler,
             updateChatCommandHandler,
             deleteChatCommandHandler,
-            findChatIdsQueryHandler,
+            findChatQueryHandler,
             createMessageCommandHandler,
             deleteMessageCommandHandler,
             findMessageIdsQueryHandler,
@@ -96,8 +96,8 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun findChatQueryHandler(chatRepository: ChatRepository): FindChatIdsQueryHandler {
-        return FindChatIdsQueryHandler(chatRepository)
+    fun findChatQueryHandler(chatRepository: ChatRepository): FindChatQueryHandler {
+        return FindChatQueryHandler(chatRepository)
     }
 
     @HandlerDefinition

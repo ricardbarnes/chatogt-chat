@@ -1,5 +1,5 @@
 package cat.vonblum.chatogt.chats.shared.domain.annotation
 
-@Suppress("unused")
+@Target(AnnotationTarget.TYPE)
 @Retention(AnnotationRetention.SOURCE)
-annotation class UsedBy(val value: String)
+annotation class DriverAdapter

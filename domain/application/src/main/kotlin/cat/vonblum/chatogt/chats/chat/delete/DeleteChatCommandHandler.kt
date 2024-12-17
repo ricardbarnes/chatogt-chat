@@ -14,7 +14,7 @@ class DeleteChatCommandHandler(
 
     fun handle(command: DeleteChatCommand) = repository.findById(ChatId(command.id)).let { chat ->
         chat.delete()
-        provider.send(chat)
+        provider.execute(chat)
         eventBus.publish(chat.pullEvents())
     }
 

@@ -26,10 +26,10 @@ class RestChatController(
     fun delete(@PathVariable id: UUID) =
         commandBus.dispatch(mapper.toDeleteCommand(id))
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun find(@PathVariable userId: UUID): RestChatDto =
-        mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(userId)))
+    fun find(@PathVariable id: UUID): RestChatDto =
+        mapper.toRest(queryBus.ask(mapper.toFindQuery(id)))
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)

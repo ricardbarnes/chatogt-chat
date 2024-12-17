@@ -14,7 +14,7 @@ class UpdateChatCommandHandler(
 
     fun handle(command: UpdateChatCommand) = repository.findById(ChatId(command.id)).let { chat ->
         chat.mute()
-        provider.send(chat)
+        provider.execute(chat)
         eventBus.publish(chat.pullEvents())
     }
 

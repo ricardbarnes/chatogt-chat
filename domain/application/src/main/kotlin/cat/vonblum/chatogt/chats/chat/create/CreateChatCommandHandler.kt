@@ -16,7 +16,7 @@ class CreateChatCommandHandler(
         ChatId(command.id),
         UserId(command.userId),
     ).let { chat ->
-        provider.send(chat)
+        provider.execute(chat)
         eventBus.publish(chat.pullEvents())
     }
 
