@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
-import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
+import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import com.google.gson.Gson
 import org.springframework.stereotype.Component
 

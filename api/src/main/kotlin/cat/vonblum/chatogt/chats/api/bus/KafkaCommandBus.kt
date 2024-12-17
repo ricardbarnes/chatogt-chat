@@ -2,7 +2,7 @@ package cat.vonblum.chatogt.chats.api.bus
 
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatCommandMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageCommandMapper
-import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
+import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import org.apache.kafka.clients.producer.KafkaProducer

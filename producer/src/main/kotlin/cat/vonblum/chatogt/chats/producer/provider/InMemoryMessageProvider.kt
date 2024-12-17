@@ -1,7 +1,7 @@
 package cat.vonblum.chatogt.chats.producer.provider
 
-import cat.vonblum.chatogt.chats.message.Message
-import cat.vonblum.chatogt.chats.message.MessageProvider
+import cat.vonblum.chatogt.chats.messages.Message
+import cat.vonblum.chatogt.chats.messages.MessageProvider
 import org.springframework.stereotype.Component
 
 @Component

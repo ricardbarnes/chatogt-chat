@@ -1,8 +1,8 @@
 package cat.vonblum.chatogt.chats.producer.repository
 
-import cat.vonblum.chatogt.chats.message.Message
-import cat.vonblum.chatogt.chats.message.MessageId
-import cat.vonblum.chatogt.chats.message.MessageRepository
+import cat.vonblum.chatogt.chats.messages.Message
+import cat.vonblum.chatogt.chats.messages.MessageId
+import cat.vonblum.chatogt.chats.messages.MessageRepository
 import cat.vonblum.chatogt.chats.shared.ChatId
 import org.springframework.stereotype.Component
 

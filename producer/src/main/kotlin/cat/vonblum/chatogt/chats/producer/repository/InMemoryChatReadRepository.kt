@@ -1,7 +1,7 @@
 package cat.vonblum.chatogt.chats.producer.repository
 
-import cat.vonblum.chatogt.chats.chat.Chat
-import cat.vonblum.chatogt.chats.chat.ChatRepository
+import cat.vonblum.chatogt.chats.chats.Chat
+import cat.vonblum.chatogt.chats.chats.ChatRepository
 import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
 import org.springframework.stereotype.Component

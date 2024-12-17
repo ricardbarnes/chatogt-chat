@@ -1,10 +1,10 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
 import cat.vonblum.chatogt.chats.api.dto.RestChatDto
-import cat.vonblum.chatogt.chats.chat.create.CreateChatCommand
-import cat.vonblum.chatogt.chats.chat.delete.DeleteChatCommand
-import cat.vonblum.chatogt.chats.chat.find.FindChatQuery
-import cat.vonblum.chatogt.chats.chat.update.UpdateChatCommand
+import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
+import cat.vonblum.chatogt.chats.chats.delete.DeleteChatCommand
+import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
+import cat.vonblum.chatogt.chats.chats.update.UpdateChatCommand
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import org.springframework.stereotype.Component

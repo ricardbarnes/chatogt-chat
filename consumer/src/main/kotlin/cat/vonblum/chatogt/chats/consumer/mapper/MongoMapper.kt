@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.consumer.mapper
 
-import cat.vonblum.chatogt.chats.chat.ChatCreatedEvent
+import cat.vonblum.chatogt.chats.chats.ChatCreatedEvent
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
 import cat.vonblum.chatogt.chats.shared.infrastructure.schema.MongoChatCreatedEvent
 import cat.vonblum.chatogt.chats.shared.infrastructure.schema.MongoEvent
