@@ -6,6 +6,7 @@ import cat.vonblum.chatogt.chats.chats.create.CreateChatCommandHandler
 import cat.vonblum.chatogt.chats.chats.find.FindChatQueryHandler
 import cat.vonblum.chatogt.chats.chats.update.UpdateChatCommandHandler
 import cat.vonblum.chatogt.chats.messages.FindingMessages
+import cat.vonblum.chatogt.chats.messages.ReportingMessages
 import cat.vonblum.chatogt.chats.messages.create.CreateMessageCommandHandler
 import cat.vonblum.chatogt.chats.messages.delete.DeleteMessageCommandHandler
 import cat.vonblum.chatogt.chats.messages.find.FindMessageIdsQueryHandler
@@ -90,8 +91,14 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun createMessageCommandHandler(eventBus: EventBus): CreateMessageCommandHandler {
-        return CreateMessageCommandHandler(eventBus)
+    fun createMessageCommandHandler(
+        eventBus: EventBus,
+        reportingMessages: ReportingMessages
+    ): CreateMessageCommandHandler {
+        return CreateMessageCommandHandler(
+            eventBus,
+            reportingMessages
+        )
     }
 
     @HandlerDefinition
