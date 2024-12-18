@@ -1,7 +1,7 @@
 package cat.vonblum.chatogt.chats.shared.domain.valueobject
 
-open class StringVo(private val value: String) {
+import cat.vonblum.chatogt.chats.shared.domain.annotation.UsedBy
 
-    fun value(): String = value
-
-}
+@Suppress("unused")
+@UsedBy("value objects")
+open class StringVo(val value: String)

@@ -1,13 +1,11 @@
 package cat.vonblum.chatogt.chats.producer.config
 
-import cat.vonblum.chatogt.chats.chats.ChatProvider
-import cat.vonblum.chatogt.chats.chats.ChatRepository
+import cat.vonblum.chatogt.chats.chats.FindingChats
 import cat.vonblum.chatogt.chats.chats.delete.DeleteChatCommandHandler
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommandHandler
 import cat.vonblum.chatogt.chats.chats.find.FindChatQueryHandler
 import cat.vonblum.chatogt.chats.chats.update.UpdateChatCommandHandler
-import cat.vonblum.chatogt.chats.messages.MessageProvider
-import cat.vonblum.chatogt.chats.messages.MessageRepository
+import cat.vonblum.chatogt.chats.messages.FindingMessages
 import cat.vonblum.chatogt.chats.messages.create.CreateMessageCommandHandler
 import cat.vonblum.chatogt.chats.messages.delete.DeleteMessageCommandHandler
 import cat.vonblum.chatogt.chats.messages.find.FindMessageIdsQueryHandler
@@ -56,26 +54,18 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun createChatCommandHandler(
-        chatProvider: ChatProvider,
-        eventBus: EventBus,
-    ): CreateChatCommandHandler {
-        return CreateChatCommandHandler(
-            chatProvider,
-            eventBus
-        )
+    fun createChatCommandHandler(eventBus: EventBus): CreateChatCommandHandler {
+        return CreateChatCommandHandler(eventBus)
     }
 
     @HandlerDefinition
     @Bean
     fun muteChatCommandHandler(
-        chatRepository: ChatRepository,
-        chatProvider: ChatProvider,
+        findingChats: FindingChats,
         eventBus: EventBus,
     ): UpdateChatCommandHandler {
         return UpdateChatCommandHandler(
-            chatRepository,
-            chatProvider,
+            findingChats,
             eventBus
         )
     }
@@ -83,71 +73,59 @@ class SpringProducerHandlerConfig {
     @HandlerDefinition
     @Bean
     fun cancelChatCommandHandler(
-        chatRepository: ChatRepository,
-        chatProvider: ChatProvider,
+        findingChats: FindingChats,
         eventBus: EventBus,
     ): DeleteChatCommandHandler {
         return DeleteChatCommandHandler(
-            chatRepository,
-            chatProvider,
+            findingChats,
             eventBus
         )
     }
 
     @HandlerDefinition
     @Bean
-    fun findChatQueryHandler(chatRepository: ChatRepository): FindChatQueryHandler {
-        return FindChatQueryHandler(chatRepository)
+    fun findChatQueryHandler(findingChats: FindingChats): FindChatQueryHandler {
+        return FindChatQueryHandler(findingChats)
     }
 
     @HandlerDefinition
     @Bean
-    fun createMessageCommandHandler(
-        messageProvider: MessageProvider,
-        eventBus: EventBus
-    ): CreateMessageCommandHandler {
-        return CreateMessageCommandHandler(
-            messageProvider,
-            eventBus
-        )
+    fun createMessageCommandHandler(eventBus: EventBus): CreateMessageCommandHandler {
+        return CreateMessageCommandHandler(eventBus)
     }
 
     @HandlerDefinition
     @Bean
     fun deleteMessageCommandHandler(
-        messageRepository: MessageRepository,
-        messageProvider: MessageProvider,
+        findingMessages: FindingMessages,
         eventBus: EventBus
     ): DeleteMessageCommandHandler {
         return DeleteMessageCommandHandler(
-            messageRepository,
-            messageProvider,
+            findingMessages,
             eventBus
         )
     }
 
     @HandlerDefinition
     @Bean
-    fun findMessageIdsQueryHandler(messageRepository: MessageRepository): FindMessageIdsQueryHandler {
-        return FindMessageIdsQueryHandler(messageRepository)
+    fun findMessageIdsQueryHandler(findingMessages: FindingMessages): FindMessageIdsQueryHandler {
+        return FindMessageIdsQueryHandler(findingMessages)
     }
 
     @HandlerDefinition
     @Bean
-    fun findMessageQueryHandler(messageRepository: MessageRepository): FindMessageQueryHandler {
-        return FindMessageQueryHandler(messageRepository)
+    fun findMessageQueryHandler(findingMessages: FindingMessages): FindMessageQueryHandler {
+        return FindMessageQueryHandler(findingMessages)
     }
 
     @HandlerDefinition
     @Bean
     fun updateMessageCommandHandler(
-        messageRepository: MessageRepository,
-        messageProvider: MessageProvider,
+        findingMessages: FindingMessages,
         eventBus: EventBus
     ): UpdateMessageCommandHandler {
         return UpdateMessageCommandHandler(
-            messageRepository,
-            messageProvider,
+            findingMessages,
             eventBus
         )
     }

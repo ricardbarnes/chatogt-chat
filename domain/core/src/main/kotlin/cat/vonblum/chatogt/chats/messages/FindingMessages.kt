@@ -6,6 +6,6 @@ interface FindingMessages {
 
     fun findById(messageId: MessageId): Message
 
-    fun findAllLatestByChatId(chatId: ChatId, limit: Int): List<Message>
+    fun findAllByChatId(chatId: ChatId): List<Message>
 
 }
