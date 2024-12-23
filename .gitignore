@@ -38,6 +38,9 @@ bin/
 ### Mac OS ###
 .DS_Store
 
+### Hidden folders ###
+.*/
+
 ### REQUIRED IGNORES IN AN ACTUAL PROJECT (JUST COMMENTED IN HERE) ###
 #### Docker ###
 #.env
