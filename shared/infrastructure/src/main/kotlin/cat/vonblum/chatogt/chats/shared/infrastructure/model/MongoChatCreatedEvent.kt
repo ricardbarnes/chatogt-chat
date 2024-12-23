@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.shared.infrastructure.schema
+package cat.vonblum.chatogt.chats.shared.infrastructure.model
 
 import cat.vonblum.chatogt.chats.shared.domain.annotation.UsedBy
 import org.springframework.data.mongodb.core.mapping.Document

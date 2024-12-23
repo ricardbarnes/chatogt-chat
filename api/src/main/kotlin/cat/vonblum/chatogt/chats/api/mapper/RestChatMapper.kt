@@ -19,7 +19,7 @@ class RestChatMapper {
 
     fun toFindQuery(userId: UUID): FindChatQuery = FindChatQuery(userId)
 
-    fun toUpdateCommand(dto: RestChatDto): Command = UpdateChatCommand(dto.id, dto.status)
+    fun toUpdateCommand(dto: RestChatDto): Command = TODO()
 
     fun toRest(response: Response?): RestChatDto = TODO()
 

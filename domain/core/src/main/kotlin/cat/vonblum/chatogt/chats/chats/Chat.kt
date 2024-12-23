@@ -13,7 +13,7 @@ class Chat(
     companion object {
 
         fun create(id: ChatId, userId: UserId): Chat =
-            Chat(id, userId).also { chat -> chat.record(ChatCreatedEvent(id.value, userId.value)) }
+            Chat(id, userId).also { chat -> chat.record(ChatCreatedEvent(userId.value, id.value)) }
 
     }
 

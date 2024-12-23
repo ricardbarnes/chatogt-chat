@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.shared.infrastructure.store
+package cat.vonblum.chatogt.chats.consumer.store
 
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
 
