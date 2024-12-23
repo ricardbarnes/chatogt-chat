@@ -9,6 +9,7 @@ import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.internals.RecordHeaders
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
@@ -30,13 +31,16 @@ class KafkaCommandBus(
     }
 
     private fun dispatchCreateChatCommand(command: CreateChatCommand) {
-        producer.send(
-            ProducerRecord(
-                topic,
-                command.id,
-                chatMapper.toDto(command)
-            )
-        ).get()
+        val headers = RecordHeaders()
+        headers.add("type", CreateChatCommand::class.simpleName?.toByteArray())
+        val record = ProducerRecord(
+            topic,
+            null,
+            command.id,
+            chatMapper.toDto(command),
+            headers
+        )
+        producer.send(record).get()
     }
 
 }

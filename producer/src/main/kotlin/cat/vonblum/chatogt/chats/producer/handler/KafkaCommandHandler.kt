@@ -16,6 +16,10 @@ class KafkaCommandHandler(
 ) {
 
     @KafkaListener(topics = ["\${kafka.topics.commands}"])
-    fun handle(record: ConsumerRecord<UUID, String>) = handler.handle(mapper.toDomain(record.value()))
+    fun handle(record: ConsumerRecord<UUID, String>) {
+        val type = record.headers().lastHeader("type")?.value()?.let { String(it) }
+        println("Message type: $type")
+        handler.handle(mapper.toDomain(record.value()))
+    }
 
 }
