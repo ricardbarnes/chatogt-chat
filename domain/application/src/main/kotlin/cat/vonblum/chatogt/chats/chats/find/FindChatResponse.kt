@@ -7,6 +7,7 @@ import java.util.UUID
 @Suppress("unused")
 @UsedBy("handler")
 class FindChatResponse(
+    val id: UUID,
     val userId: UUID,
-    val chatIds: List<UUID>,
+    val status: String
 ) : Response

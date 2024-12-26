@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Component
-class MongoReadStore(
+internal class MongoReadStore(
     private val template: MongoTemplate,
     private val mapper: MongoEventMapper,
 ) : ReadStore {

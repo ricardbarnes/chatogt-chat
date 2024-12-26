@@ -5,7 +5,6 @@ import cat.vonblum.chatogt.chats.chats.FindingChats
 import cat.vonblum.chatogt.chats.producer.repository.ChatRepository
 import cat.vonblum.chatogt.chats.producer.store.ReadStore
 import cat.vonblum.chatogt.chats.shared.ChatId
-import cat.vonblum.chatogt.chats.shared.UserId
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DrivenAdapter
 import org.springframework.stereotype.Component
 
@@ -19,7 +18,5 @@ class MongoFindingChats(
     override fun findById(id: ChatId): Chat {
         TODO("Not yet implemented")
     }
-
-    override fun findAllByUserId(userId: UserId): List<ChatId> = repository.findAllIdsByUserId(userId)
 
 }

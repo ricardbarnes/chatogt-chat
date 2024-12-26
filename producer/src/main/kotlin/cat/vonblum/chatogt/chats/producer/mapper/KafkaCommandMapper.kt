@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component
 @Component
 class KafkaCommandMapper(private val gson: Gson) {
 
-    fun toDomain(obj: Any): CreateChatCommand {
-        return gson.fromJson(obj.toString(), CreateChatCommand::class.java)
+    fun toDomain(json: String): CreateChatCommand {
+        return gson.fromJson(json, CreateChatCommand::class.java)
     }
 
 }

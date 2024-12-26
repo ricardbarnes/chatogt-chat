@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 import java.util.*
 
 @Component
-class MongoChatRepository(
+internal class MongoChatRepository(
     private val template: MongoTemplate
 ) : ChatRepository {
 

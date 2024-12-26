@@ -5,6 +5,7 @@ kafka:
   topics:
     commands: commands
     queries: queries
+    responses: responses
     events: events
 
 spring:

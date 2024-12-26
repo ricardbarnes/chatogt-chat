@@ -4,6 +4,5 @@ import java.util.UUID
 
 class RestUserDto(
     val id: UUID,
-    val chatIds: List<UUID>,
-    val blockedIds: List<UUID>
+    val chatIds: List<UUID>
 )

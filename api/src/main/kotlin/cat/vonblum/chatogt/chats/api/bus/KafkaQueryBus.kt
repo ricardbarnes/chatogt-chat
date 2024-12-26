@@ -13,6 +13,7 @@ import org.apache.kafka.clients.producer.ProducerRecord
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
+import java.util.concurrent.CompletableFuture
 
 @DriverAdapter
 @Component
@@ -21,8 +22,11 @@ class KafkaQueryBus(
     private val messageMapper: KafkaMessageQueryMapper,
     private val userMapper: KafkaUserQueryMapper,
     private val producer: KafkaProducer<UUID, String>,
-    @Value("\${kafka.topics.queries}") private val topic: String
+    @Value("\${kafka.topics.queries}") private val queryTopic: String,
+    @Value("\${kafka.topics.responses}") private val responseTopic: String
 ) : QueryBus {
+
+    private val responseFutures: MutableMap<String, CompletableFuture<Response>> = mutableMapOf()
 
     override fun ask(query: Query): Response? {
         return when (query) {
@@ -31,16 +35,28 @@ class KafkaQueryBus(
         }
     }
 
-    private fun askFindChatQuery(query: FindChatQuery): Response? {
+    private fun askFindChatQuery(query: FindChatQuery): Response? { // TODO refactor
+        val correlationId = UUID.randomUUID().toString()
+
+        // Send request
         producer.send(
             ProducerRecord(
-                topic,
+                queryTopic,
                 query.id,
                 chatMapper.toDto(query)
             )
         )
 
-        return null
+        // Wait for response
+        val responseFuture = CompletableFuture<Response>()
+        responseFutures[correlationId] = responseFuture
+        val response = responseFuture.get()
+
+        // Clean up futures
+        responseFutures.remove(correlationId)?.complete(response)
+
+        // Return response
+        return response;
     }
 
 }

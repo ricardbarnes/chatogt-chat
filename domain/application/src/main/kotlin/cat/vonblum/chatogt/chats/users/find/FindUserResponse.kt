@@ -5,6 +5,5 @@ import java.util.*
 
 class FindUserResponse(
     val id: UUID,
-    val chatIds: List<UUID>,
-    val blockedIds: List<UUID>,
+    val chatIds: List<UUID>
 ) : Response
