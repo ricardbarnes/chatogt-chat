@@ -7,12 +7,15 @@ import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
+import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.Headers
 import org.apache.kafka.common.header.internals.RecordHeaders
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
+import kotlin.reflect.KClass
 
 @DriverAdapter
 @Component
@@ -26,19 +29,24 @@ class KafkaCommandBus(
 
     override fun dispatch(command: Command) {
         when (command) {
-            is CreateChatCommand -> dispatchCreateChatCommand(command)
+            is CreateUserCommand -> handleDispatching(command.id, command)
+            is CreateChatCommand -> handleDispatching(command.id, command)
         }
     }
 
-    private fun dispatchCreateChatCommand(command: CreateChatCommand) {
+    private fun aHeaders(clazz: KClass<*>): Headers {
         val headers = RecordHeaders()
-        headers.add("type", CreateChatCommand::class.simpleName?.toByteArray())
+        headers.add("type", clazz.simpleName?.toByteArray())
+        return headers;
+    }
+
+    private fun handleDispatching(id: UUID, command: Command) {
         val record = ProducerRecord(
             topic,
             null,
-            command.id,
+            id,
             chatMapper.toDto(command),
-            headers
+            aHeaders(command::class)
         )
         producer.send(record).get()
     }

@@ -1,9 +1,9 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
 import cat.vonblum.chatogt.chats.api.dto.RestUserDto
-import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
+import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommand
 import cat.vonblum.chatogt.chats.users.find.FindUserQuery
 import cat.vonblum.chatogt.chats.users.find.FindUserResponse
@@ -13,7 +13,10 @@ import java.util.*
 @Component
 class RestUserMapper {
 
-    fun toCreateCommand(dto: RestUserDto): CreateChatCommand = TODO()
+    fun toCreateCommand(dto: RestUserDto): CreateUserCommand = CreateUserCommand(
+        dto.id,
+        dto.chatIds
+    )
 
     fun toDeleteCommand(id: UUID): DeleteUserCommand = TODO()
 

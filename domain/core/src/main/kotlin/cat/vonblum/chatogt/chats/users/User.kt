@@ -13,14 +13,12 @@ class User(
 
         fun create(
             id: UserId,
-            chatIds: MutableList<ChatId> = mutableListOf(),
-            blockedUserIds: MutableList<UserId> = mutableListOf()
+            chatIds: MutableList<ChatId> = mutableListOf()
         ): User =
             User(id, chatIds).also { user: User ->
                 user.record(
                     UserCreatedEvent(
                         chatIds.stream().map { it.value }.toList(),
-                        blockedUserIds.stream().map { it.value }.toList(),
                         id.value
                     )
                 )

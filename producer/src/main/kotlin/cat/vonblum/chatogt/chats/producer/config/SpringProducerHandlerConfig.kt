@@ -68,8 +68,8 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun createUserCommandHandler(): CreateUserCommandHandler {
-        return CreateUserCommandHandler()
+    fun createUserCommandHandler(eventBus: EventBus): CreateUserCommandHandler {
+        return CreateUserCommandHandler(eventBus)
     }
 
     @HandlerDefinition
