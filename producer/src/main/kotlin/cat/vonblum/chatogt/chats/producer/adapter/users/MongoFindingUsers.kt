@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component
 class MongoFindingUsers : FindingUsers {
 
     override fun findById(id: UserId): User {
-        TODO("Not yet implemented")
+        println("PEPE! Finding user!")
+        return User(id, mutableListOf())
     }
 
 }

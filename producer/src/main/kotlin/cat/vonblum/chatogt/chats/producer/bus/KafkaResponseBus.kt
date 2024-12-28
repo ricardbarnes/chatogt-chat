@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Component
-class KafResponseBus(
+class KafkaResponseBus(
     private val mapper: KafkaResponseMapper,
     private val producer: KafkaProducer<UUID, String>,
     @Value("\${kafka.topics.responses}") private val topic: String

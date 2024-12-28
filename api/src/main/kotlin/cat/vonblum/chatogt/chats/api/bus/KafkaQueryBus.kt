@@ -8,6 +8,7 @@ import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
+import cat.vonblum.chatogt.chats.users.find.FindUserQuery
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.springframework.beans.factory.annotation.Value
@@ -26,16 +27,16 @@ class KafkaQueryBus(
     @Value("\${kafka.topics.responses}") private val responseTopic: String
 ) : QueryBus {
 
-    private val responseFutures: MutableMap<String, CompletableFuture<Response>> = mutableMapOf()
+    private val responseFutures: MutableMap<String, CompletableFuture<String>> = mutableMapOf()
 
     override fun ask(query: Query): Response? {
         return when (query) {
-            is FindChatQuery -> askFindChatQuery(query)
+            is FindUserQuery -> askFindUserQuery(query)
             else -> null // TODO...
         }
     }
 
-    private fun askFindChatQuery(query: FindChatQuery): Response? { // TODO refactor
+    private fun askFindUserQuery(query: FindUserQuery): Response? { // TODO...
         val correlationId = UUID.randomUUID().toString()
 
         // Send request
@@ -43,12 +44,12 @@ class KafkaQueryBus(
             ProducerRecord(
                 queryTopic,
                 query.id,
-                chatMapper.toDto(query)
+                userMapper.toDto(query)
             )
         )
 
         // Wait for response
-        val responseFuture = CompletableFuture<Response>()
+        val responseFuture = CompletableFuture<String>()
         responseFutures[correlationId] = responseFuture
         val response = responseFuture.get()
 
@@ -56,7 +57,7 @@ class KafkaQueryBus(
         responseFutures.remove(correlationId)?.complete(response)
 
         // Return response
-        return response;
+        return chatMapper.toDomain(response)
     }
 
 }
