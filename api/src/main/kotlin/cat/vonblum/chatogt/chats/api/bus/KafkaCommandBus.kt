@@ -37,7 +37,7 @@ class KafkaCommandBus(
     private fun aHeaders(clazz: KClass<*>): Headers {
         val headers = RecordHeaders()
         headers.add("type", clazz.simpleName?.toByteArray())
-        return headers;
+        return headers
     }
 
     private fun handleDispatching(id: UUID, command: Command) {

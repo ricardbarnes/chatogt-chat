@@ -5,9 +5,12 @@ import cat.vonblum.chatogt.chats.shared.domain.event.Event
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeaders
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
+import kotlin.reflect.KClass
 
 @Component
 class KafkaEventBus(
@@ -21,11 +24,19 @@ class KafkaEventBus(
             producer.send(
                 ProducerRecord(
                     topic,
+                    null,
                     event.id,
-                    mapper.toKafkaDto(event)
+                    mapper.toKafkaDto(event),
+                    aHeaders(event::class)
                 )
             )
         }
+    }
+
+    private fun aHeaders(clazz: KClass<*>): Headers {
+        val headers = RecordHeaders()
+        headers.add("type", clazz.simpleName?.toByteArray())
+        return headers
     }
 
 }
