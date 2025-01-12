@@ -12,7 +12,7 @@ class MongoFindingUsers : FindingUsers {
 
     override fun findById(id: UserId): User {
         println("PEPE! Finding user!")
-        return User(id, mutableListOf())
+        return User(id)
     }
 
 }

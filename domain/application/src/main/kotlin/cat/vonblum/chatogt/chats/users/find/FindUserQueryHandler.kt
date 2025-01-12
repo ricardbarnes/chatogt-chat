@@ -7,10 +7,7 @@ class FindUserQueryHandler(private val finding: FindingUsers) {
 
     fun handle(query: FindUserQuery): FindUserResponse =
         finding.findById(UserId(query.id)).let { user ->
-            FindUserResponse(
-                user.id.value,
-                user.chatIds.stream().map { it.value }.toList()
-            )
+            FindUserResponse(user.id.value)
         }
 
 }

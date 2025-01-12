@@ -13,10 +13,7 @@ import java.util.*
 @Component
 class RestUserMapper {
 
-    fun toCreateCommand(dto: RestUserDto): CreateUserCommand = CreateUserCommand(
-        dto.id,
-        dto.chatIds
-    )
+    fun toCreateCommand(dto: RestUserDto): CreateUserCommand = CreateUserCommand(dto.id)
 
     fun toDeleteCommand(id: UUID): DeleteUserCommand = TODO()
 
@@ -26,10 +23,7 @@ class RestUserMapper {
 
     fun toRest(response: Response?): RestUserDto {
         val findUserResponse = response as FindUserResponse
-        return RestUserDto(
-            findUserResponse.id,
-            findUserResponse.chatIds
-        )
+        return RestUserDto(findUserResponse.id)
     }
 
 }
