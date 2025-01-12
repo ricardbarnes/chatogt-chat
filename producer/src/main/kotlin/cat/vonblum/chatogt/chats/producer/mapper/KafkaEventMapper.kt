@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 @Component
 class KafkaEventMapper(private val gson: Gson) {
 
-    fun toKafkaDto(event: Event): String {
+    fun toDto(event: Event): String {
         return gson.toJson(event)
     }
 

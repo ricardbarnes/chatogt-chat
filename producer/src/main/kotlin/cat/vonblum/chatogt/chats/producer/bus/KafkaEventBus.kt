@@ -26,7 +26,7 @@ class KafkaEventBus(
                     topic,
                     null,
                     event.id,
-                    mapper.toKafkaDto(event),
+                    mapper.toDto(event),
                     aHeaders(event::class)
                 )
             )
@@ -35,7 +35,7 @@ class KafkaEventBus(
 
     private fun aHeaders(clazz: KClass<*>): Headers {
         val headers = RecordHeaders()
-        headers.add("type", clazz.simpleName?.toByteArray())
+        headers.add("type", clazz.qualifiedName?.toByteArray())
         return headers
     }
 

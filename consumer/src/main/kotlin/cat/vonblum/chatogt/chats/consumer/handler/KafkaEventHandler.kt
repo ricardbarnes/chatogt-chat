@@ -15,13 +15,7 @@ class KafkaEventHandler(
 
     @KafkaListener(topics = ["\${kafka.topics.events}"])
     fun handle(record: ConsumerRecord<UUID, String>) {
-        val headerKey = "type"
-        val headerValue = record.headers()
-            .lastHeader(headerKey)
-            ?.value()
-            ?.toString(Charsets.UTF_8)
-
-        store.save(mapper.toDomain(record.value()))
+        store.save(mapper.toDomain(record))
     }
 
 }
