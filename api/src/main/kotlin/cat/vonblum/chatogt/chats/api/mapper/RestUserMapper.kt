@@ -1,6 +1,7 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
 import cat.vonblum.chatogt.chats.api.dto.RestUserDto
+import cat.vonblum.chatogt.chats.chats.find.FindUserChatsQuery
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
@@ -24,6 +25,10 @@ class RestUserMapper {
     fun toRest(response: Response?): RestUserDto {
         val findUserResponse = response as FindUserResponse
         return RestUserDto(findUserResponse.id)
+    }
+
+    fun toFindByUserQuery(id: UUID): FindUserChatsQuery {
+        return FindUserChatsQuery(id)
     }
 
 }

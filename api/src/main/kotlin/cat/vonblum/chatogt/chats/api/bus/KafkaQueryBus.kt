@@ -3,7 +3,7 @@ package cat.vonblum.chatogt.chats.api.bus
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaUserQueryMapper
-import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
+import cat.vonblum.chatogt.chats.chats.find.FindUserChatsQuery
 import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
@@ -32,6 +32,7 @@ class KafkaQueryBus(
     override fun ask(query: Query): Response? {
         return when (query) {
             is FindUserQuery -> askFindUserQuery(query)
+            is FindUserChatsQuery -> askFindUserChatsQuery(query)
             else -> null // TODO...
         }
     }
@@ -44,6 +45,30 @@ class KafkaQueryBus(
             ProducerRecord(
                 queryTopic,
                 query.id,
+                userMapper.toDto(query)
+            )
+        )
+
+        // Wait for response
+        val responseFuture = CompletableFuture<String>()
+        responseFutures[correlationId] = responseFuture
+        val response = responseFuture.get()
+
+        // Clean up futures
+        responseFutures.remove(correlationId)?.complete(response)
+
+        // Return response
+        return chatMapper.toDomain(response)
+    }
+
+    private fun askFindUserChatsQuery(query: FindUserChatsQuery): Response? { // TODO
+        val correlationId = UUID.randomUUID().toString()
+
+        // Send request
+        producer.send(
+            ProducerRecord(
+                queryTopic,
+                query.userId,
                 userMapper.toDto(query)
             )
         )
