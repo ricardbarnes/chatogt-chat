@@ -2,6 +2,7 @@ package cat.vonblum.chatogt.chats.api.mapper
 
 import cat.vonblum.chatogt.chats.api.dto.RestUserDto
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommand
@@ -19,6 +20,13 @@ class RestUserMapper {
 
     fun toFindByUserIdQuery(id: UUID): FindChatIdsByUserIdQuery {
         return FindChatIdsByUserIdQuery(id)
+    }
+
+    fun toDto(response: FindChatIdsByUserIdResponse): RestUserDto {
+        return RestUserDto(
+            response.userId,
+            response.chatIds.map { it.toString() }.toList()
+        )
     }
 
 }
