@@ -4,6 +4,7 @@ import cat.vonblum.chatogt.chats.chats.FindingChats
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommandHandler
 import cat.vonblum.chatogt.chats.chats.delete.DeleteChatCommandHandler
 import cat.vonblum.chatogt.chats.chats.find.FindChatQueryHandler
+import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdHandler
 import cat.vonblum.chatogt.chats.chats.update.UpdateChatCommandHandler
 import cat.vonblum.chatogt.chats.messages.FindingMessages
 import cat.vonblum.chatogt.chats.messages.ReportingMessages
@@ -47,7 +48,8 @@ class SpringProducerHandlerConfig {
         createUserCommandHandler: CreateUserCommandHandler,
         updateUserCommandHandler: UpdateUserCommandHandler,
         deleteUserCommandHandler: DeleteUserCommandHandler,
-        findUserQueryHandler: FindUserQueryHandler
+        findUserQueryHandler: FindUserQueryHandler,
+        findChatsByUserIdHandler: FindChatsByUserIdHandler,
     ): List<Any> {
         return listOf(
             createChatCommandHandler,
@@ -62,7 +64,8 @@ class SpringProducerHandlerConfig {
             createUserCommandHandler,
             updateUserCommandHandler,
             deleteUserCommandHandler,
-            findUserQueryHandler
+            findUserQueryHandler,
+            findChatsByUserIdHandler,
         )
     }
 
@@ -172,6 +175,12 @@ class SpringProducerHandlerConfig {
             findingMessages,
             eventBus
         )
+    }
+
+    @HandlerDefinition
+    @Bean
+    fun findChatsByUserIdQueryHandler(findingChats: FindingChats): FindChatsByUserIdHandler {
+        return FindChatsByUserIdHandler(findingChats)
     }
 
 }

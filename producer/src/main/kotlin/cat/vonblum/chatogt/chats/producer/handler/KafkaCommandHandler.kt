@@ -21,21 +21,16 @@ class KafkaCommandHandler(
 
     @KafkaListener(topics = ["\${kafka.topics.commands}"])
     fun handle(record: ConsumerRecord<UUID, String>) {
-        val type = record.headers().lastHeader("type")?.value()?.let { String(it) }
-
-        when (type) {
-            CreateUserCommand::class.simpleName -> {
+        val typeName = record.headers().lastHeader("type")?.value()?.let { String(it) }
+        when (Class.forName(typeName).kotlin) {
+            CreateUserCommand::class -> {
                 val command = mapper.toDomain(record.value(), CreateUserCommand::class.java)
                 createUserCommandHandler.handle(command)
             }
 
-            CreateChatCommand::class.simpleName -> {
+            CreateChatCommand::class -> {
                 val command = mapper.toDomain(record.value(), CreateChatCommand::class.java)
                 createChatCommandHandler.handle(command)
-            }
-
-            else -> {
-                throw IllegalArgumentException("Unknown command type: $type")
             }
         }
     }

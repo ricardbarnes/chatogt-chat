@@ -33,6 +33,6 @@ class RestUserController(
     fun update(@RequestBody dto: RestUserDto) = commandBus.dispatch(mapper.toUpdateCommand(dto))
 
     @GetMapping("/{id}/chats")
-    fun findByUserId(@PathVariable id: UUID) = queryBus.ask(mapper.toFindByUserQuery(id))
+    fun findChatsByUserId(@PathVariable id: UUID) = queryBus.ask(mapper.toFindByUserIdQuery(id))
 
 }

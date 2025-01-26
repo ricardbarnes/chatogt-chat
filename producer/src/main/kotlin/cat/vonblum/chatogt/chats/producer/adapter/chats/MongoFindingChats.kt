@@ -21,7 +21,8 @@ class MongoFindingChats(
     }
 
     override fun findAllByUserId(userId: UserId): Set<Chat> {
-        TODO("Not yet implemented")
+        println("Finding all chats for user ID ${userId.value}...") // TODO...
+        return setOf()
     }
 
 }

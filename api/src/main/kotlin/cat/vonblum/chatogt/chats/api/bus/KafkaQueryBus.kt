@@ -3,7 +3,7 @@ package cat.vonblum.chatogt.chats.api.bus
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaUserQueryMapper
-import cat.vonblum.chatogt.chats.chats.find.FindUserChatsQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdQuery
 import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
@@ -11,10 +11,13 @@ import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
 import cat.vonblum.chatogt.chats.users.find.FindUserQuery
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
+import org.apache.kafka.common.header.Headers
+import org.apache.kafka.common.header.internals.RecordHeaders
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import java.util.UUID
 import java.util.concurrent.CompletableFuture
+import kotlin.reflect.KClass
 
 @DriverAdapter
 @Component
@@ -23,7 +26,7 @@ class KafkaQueryBus(
     private val messageMapper: KafkaMessageQueryMapper,
     private val userMapper: KafkaUserQueryMapper,
     private val producer: KafkaProducer<UUID, String>,
-    @Value("\${kafka.topics.queries}") private val queryTopic: String,
+    @Value("\${kafka.topics.queries}") private val topic: String,
     @Value("\${kafka.topics.responses}") private val responseTopic: String
 ) : QueryBus {
 
@@ -32,9 +35,15 @@ class KafkaQueryBus(
     override fun ask(query: Query): Response? {
         return when (query) {
             is FindUserQuery -> askFindUserQuery(query)
-            is FindUserChatsQuery -> askFindUserChatsQuery(query)
+            is FindChatsByUserIdQuery -> askFindChatsByUserIdQuery(query)
             else -> null // TODO...
         }
+    }
+
+    private fun aHeaders(clazz: KClass<*>): Headers {
+        val headers = RecordHeaders()
+        headers.add("type", clazz.qualifiedName?.toByteArray())
+        return headers
     }
 
     private fun askFindUserQuery(query: FindUserQuery): Response? { // TODO...
@@ -43,9 +52,11 @@ class KafkaQueryBus(
         // Send request
         producer.send(
             ProducerRecord(
-                queryTopic,
+                topic,
+                null,
                 query.id,
-                userMapper.toDto(query)
+                userMapper.toDto(query),
+                aHeaders(query::class)
             )
         )
 
@@ -61,15 +72,17 @@ class KafkaQueryBus(
         return chatMapper.toDomain(response)
     }
 
-    private fun askFindUserChatsQuery(query: FindUserChatsQuery): Response? { // TODO
+    private fun askFindChatsByUserIdQuery(query: FindChatsByUserIdQuery): Response? { // TODO
         val correlationId = UUID.randomUUID().toString()
 
         // Send request
         producer.send(
             ProducerRecord(
-                queryTopic,
+                topic,
+                null,
                 query.userId,
-                userMapper.toDto(query)
+                userMapper.toDto(query),
+                aHeaders(query::class)
             )
         )
 
