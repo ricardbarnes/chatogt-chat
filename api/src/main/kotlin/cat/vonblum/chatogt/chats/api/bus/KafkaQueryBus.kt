@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.TimeUnit
 
 @DriverAdapter
 @Component
@@ -25,8 +28,7 @@ class KafkaQueryBus(
     @Value("\${kafka.topics.queries}") private val queriesTopic: String,
 ) : QueryBus {
 
-    private var currentCorrelationId: UUID? = null
-    private var receivedResponseRecord: ConsumerRecord<UUID, String>? = null
+    private val responseFutures = ConcurrentHashMap<UUID, CompletableFuture<ConsumerRecord<UUID, String>>>()
 
     override fun ask(query: Query): Response? {
         return when (query) {
@@ -35,12 +37,16 @@ class KafkaQueryBus(
         }
     }
 
-    private fun askFindChatsByUserIdQuery(query: FindChatIdsByUserIdQuery): Response? { // TODO
+    private fun askFindChatsByUserIdQuery(query: FindChatIdsByUserIdQuery): Response? {
         val correlationId = UUID.randomUUID()
-        currentCorrelationId = correlationId
-        val headers = RecordHeaders()
-        headers.add("type", query::class.qualifiedName?.toByteArray())
-        headers.add("correlationId", correlationId.toString().toByteArray())
+        val future = CompletableFuture<ConsumerRecord<UUID, String>>()
+        responseFutures[correlationId] = future
+
+        val headers = RecordHeaders().apply {
+            add("type", query::class.qualifiedName?.toByteArray())
+            add("correlationId", correlationId.toString().toByteArray())
+        }
+
         val record = ProducerRecord(
             queriesTopic,
             null,
@@ -52,18 +58,26 @@ class KafkaQueryBus(
         // Send request
         producer.send(record)
 
-        Thread.sleep(5000)
-
-        // Return response
-        return chatMapper.toDomain(receivedResponseRecord?.value())
+        return try {
+            // Wait for the response (timeout after 5 seconds)
+            val responseRecord = future.get(5, TimeUnit.SECONDS)
+            chatMapper.toDomain(responseRecord.value())
+        } catch (e: Exception) {
+            // Handle timeout or other exceptions
+            throw RuntimeException("Failed to get response for query", e)
+        } finally {
+            // Clean up the future
+            responseFutures.remove(correlationId)
+        }
     }
 
     @KafkaListener(topics = ["\${kafka.topics.responses}"], groupId = "vonblum")
     private fun listenResponse(record: ConsumerRecord<UUID, String>) {
         val rawCorrelationId = record.headers().lastHeader("correlationId")?.value()
-        val recordCorrelationId = UUID.fromString(rawCorrelationId?.let { String(it) })
-        if (recordCorrelationId == currentCorrelationId) {
-            receivedResponseRecord = record
+        val correlationId = rawCorrelationId?.let { UUID.fromString(String(it)) }
+
+        if (correlationId != null) {
+            responseFutures[correlationId]?.complete(record)
         }
     }
 
