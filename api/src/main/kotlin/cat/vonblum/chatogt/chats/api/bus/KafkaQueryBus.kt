@@ -75,7 +75,6 @@ class KafkaQueryBus(
     private fun listenResponse(record: ConsumerRecord<UUID, String>) {
         val rawCorrelationId = record.headers().lastHeader("correlationId")?.value()
         val correlationId = rawCorrelationId?.let { UUID.fromString(String(it)) }
-
         if (correlationId != null) {
             responseFutures[correlationId]?.complete(record)
         }
