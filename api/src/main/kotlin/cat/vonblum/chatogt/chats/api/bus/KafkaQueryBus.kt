@@ -3,7 +3,7 @@ package cat.vonblum.chatogt.chats.api.bus
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaUserQueryMapper
-import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
 import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
@@ -35,7 +35,7 @@ class KafkaQueryBus(
     override fun ask(query: Query): Response? {
         return when (query) {
             is FindUserQuery -> askFindUserQuery(query)
-            is FindChatsByUserIdQuery -> askFindChatsByUserIdQuery(query)
+            is FindChatIdsByUserIdQuery -> askFindChatsByUserIdQuery(query)
             else -> null // TODO...
         }
     }
@@ -72,7 +72,7 @@ class KafkaQueryBus(
         return chatMapper.toDomain(response)
     }
 
-    private fun askFindChatsByUserIdQuery(query: FindChatsByUserIdQuery): Response? { // TODO
+    private fun askFindChatsByUserIdQuery(query: FindChatIdsByUserIdQuery): Response? { // TODO
         val correlationId = UUID.randomUUID().toString()
 
         // Send request

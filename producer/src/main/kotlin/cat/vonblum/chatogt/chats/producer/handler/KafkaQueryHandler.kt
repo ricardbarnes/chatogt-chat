@@ -1,7 +1,7 @@
 package cat.vonblum.chatogt.chats.producer.handler
 
-import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdHandler
-import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdHandler
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
 import cat.vonblum.chatogt.chats.producer.mapper.KafkaQueryMapper
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
 import cat.vonblum.chatogt.chats.users.find.FindUserQuery
@@ -16,7 +16,7 @@ import java.util.*
 class KafkaQueryHandler(
     private val mapper: KafkaQueryMapper,
     private val findUserQueryHandler: FindUserQueryHandler,
-    private val findChatsByUserIdQuery: FindChatsByUserIdHandler,
+    private val findChatsByUserIdQuery: FindChatIdsByUserIdHandler,
 ) {
 
     @KafkaListener(topics = ["\${kafka.topics.queries}"])
@@ -30,7 +30,7 @@ class KafkaQueryHandler(
                 // TODO send response back
             }
 
-            FindChatsByUserIdQuery::class -> {
+            FindChatIdsByUserIdQuery::class -> {
                 val response = findChatsByUserIdQuery.handle(mapper.toFindChatsByUserId(record.value()))
                 // TODO send response back
             }

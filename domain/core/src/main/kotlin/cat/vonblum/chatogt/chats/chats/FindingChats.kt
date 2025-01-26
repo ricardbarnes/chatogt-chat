@@ -7,6 +7,6 @@ interface FindingChats {
 
     fun findById(id: ChatId): Chat
 
-    fun findAllByUserId(userId: UserId): Set<Chat>
+    fun findAllIdsByUserId(userId: UserId): Set<ChatId>
 
 }

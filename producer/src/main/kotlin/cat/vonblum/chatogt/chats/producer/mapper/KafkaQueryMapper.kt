@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.producer.mapper
 
-import cat.vonblum.chatogt.chats.chats.find.FindChatsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
 import cat.vonblum.chatogt.chats.users.find.FindUserQuery
 import com.google.gson.Gson
 import org.springframework.stereotype.Component
@@ -12,8 +12,8 @@ class KafkaQueryMapper(private val gson: Gson) {
         return gson.fromJson(json, FindUserQuery::class.java)
     }
 
-    fun toFindChatsByUserId(json: String): FindChatsByUserIdQuery {
-        return gson.fromJson(json, FindChatsByUserIdQuery::class.java)
+    fun toFindChatsByUserId(json: String): FindChatIdsByUserIdQuery {
+        return gson.fromJson(json, FindChatIdsByUserIdQuery::class.java)
     }
 
 }
