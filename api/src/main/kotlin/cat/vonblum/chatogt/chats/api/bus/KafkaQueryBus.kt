@@ -59,8 +59,8 @@ class KafkaQueryBus(
         producer.send(record)
 
         return try {
-            // Wait for the response (timeout after 5 seconds)
-            val responseRecord = future.get(5, TimeUnit.SECONDS)
+            // Wait for the response
+            val responseRecord = future.get(30, TimeUnit.SECONDS)
             chatMapper.toDomain(responseRecord.value())
         } catch (e: Exception) {
             // Handle timeout or other exceptions
