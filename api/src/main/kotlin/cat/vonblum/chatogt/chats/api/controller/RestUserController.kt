@@ -24,10 +24,6 @@ class RestUserController(
     @ResponseStatus(HttpStatus.OK)
     fun delete(@PathVariable id: UUID) = commandBus.dispatch(mapper.toDeleteCommand(id))
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    fun find(@PathVariable id: UUID): RestUserDto = mapper.toRest(queryBus.ask(mapper.toFindQuery(id)))
-
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     fun update(@RequestBody dto: RestUserDto) = commandBus.dispatch(mapper.toUpdateCommand(dto))

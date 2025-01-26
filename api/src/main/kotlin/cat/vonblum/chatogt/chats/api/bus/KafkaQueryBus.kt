@@ -8,7 +8,6 @@ import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
-import cat.vonblum.chatogt.chats.users.find.FindUserQuery
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.header.Headers
@@ -34,7 +33,6 @@ class KafkaQueryBus(
 
     override fun ask(query: Query): Response? {
         return when (query) {
-            is FindUserQuery -> askFindUserQuery(query)
             is FindChatIdsByUserIdQuery -> askFindChatsByUserIdQuery(query)
             else -> null // TODO...
         }
@@ -44,32 +42,6 @@ class KafkaQueryBus(
         val headers = RecordHeaders()
         headers.add("type", clazz.qualifiedName?.toByteArray())
         return headers
-    }
-
-    private fun askFindUserQuery(query: FindUserQuery): Response? { // TODO...
-        val correlationId = UUID.randomUUID().toString()
-
-        // Send request
-        producer.send(
-            ProducerRecord(
-                topic,
-                null,
-                query.id,
-                userMapper.toDto(query),
-                aHeaders(query::class)
-            )
-        )
-
-        // Wait for response
-        val responseFuture = CompletableFuture<String>()
-        responseFutures[correlationId] = responseFuture
-        val response = responseFuture.get()
-
-        // Clean up futures
-        responseFutures.remove(correlationId)?.complete(response)
-
-        // Return response
-        return chatMapper.toDomain(response)
     }
 
     private fun askFindChatsByUserIdQuery(query: FindChatIdsByUserIdQuery): Response? { // TODO

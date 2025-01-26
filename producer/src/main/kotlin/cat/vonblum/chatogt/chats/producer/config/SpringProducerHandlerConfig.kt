@@ -17,10 +17,8 @@ import cat.vonblum.chatogt.chats.shared.domain.annotation.HandlerDefinition
 import cat.vonblum.chatogt.chats.shared.domain.annotation.HandlerRegistry
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
 import cat.vonblum.chatogt.chats.shared.domain.handler.Handler
-import cat.vonblum.chatogt.chats.users.FindingUsers
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommandHandler
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommandHandler
-import cat.vonblum.chatogt.chats.users.find.FindUserQueryHandler
 import cat.vonblum.chatogt.chats.users.update.UpdateUserCommandHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -48,7 +46,6 @@ class SpringProducerHandlerConfig {
         createUserCommandHandler: CreateUserCommandHandler,
         updateUserCommandHandler: UpdateUserCommandHandler,
         deleteUserCommandHandler: DeleteUserCommandHandler,
-        findUserQueryHandler: FindUserQueryHandler,
         findChatIdsByUserIdHandler: FindChatIdsByUserIdHandler,
     ): List<Any> {
         return listOf(
@@ -64,7 +61,6 @@ class SpringProducerHandlerConfig {
             createUserCommandHandler,
             updateUserCommandHandler,
             deleteUserCommandHandler,
-            findUserQueryHandler,
             findChatIdsByUserIdHandler,
         )
     }
@@ -85,12 +81,6 @@ class SpringProducerHandlerConfig {
     @Bean
     fun deleteUserCommandHandler(): DeleteUserCommandHandler {
         return DeleteUserCommandHandler()
-    }
-
-    @HandlerDefinition
-    @Bean
-    fun findUserQueryHandler(findingUsers: FindingUsers): FindUserQueryHandler {
-        return FindUserQueryHandler(findingUsers)
     }
 
     @HandlerDefinition
