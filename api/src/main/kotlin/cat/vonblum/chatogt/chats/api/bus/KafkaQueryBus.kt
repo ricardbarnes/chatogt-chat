@@ -26,7 +26,6 @@ class KafkaQueryBus(
     private val userMapper: KafkaUserQueryMapper,
     private val producer: KafkaProducer<UUID, String>,
     @Value("\${kafka.topics.queries}") private val queriesTopic: String,
-    @Value("\${kafka.topics.responses}") private val responsesTopic: String
 ) : QueryBus {
 
     private var currentCorrelationId: UUID? = null
