@@ -4,9 +4,8 @@ import cat.vonblum.chatogt.chats.api.dto.RestChatDto
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import cat.vonblum.chatogt.chats.chats.delete.DeleteChatCommand
 import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
-import cat.vonblum.chatogt.chats.chats.update.UpdateChatCommand
+import cat.vonblum.chatogt.chats.chats.find.FindChatResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
-import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -21,6 +20,11 @@ class RestChatMapper {
 
     fun toUpdateCommand(dto: RestChatDto): Command = TODO()
 
-    fun toRest(response: Response?): RestChatDto = TODO()
+    fun toRest(response: FindChatResponse): RestChatDto {
+        return RestChatDto(
+            response.id,
+            response.userId,
+        )
+    }
 
 }

@@ -3,6 +3,7 @@ package cat.vonblum.chatogt.chats.api.bus
 import cat.vonblum.chatogt.chats.api.mapper.KafkaChatQueryMapper
 import cat.vonblum.chatogt.chats.api.mapper.KafkaUserQueryMapper
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
 import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
@@ -33,6 +34,7 @@ class KafkaQueryBus(
     override fun ask(query: Query): Response? {
         return when (query) {
             is FindChatIdsByUserIdQuery -> askFindChatsByUserIdQuery(query)
+            is FindChatQuery -> askFindChatQuery(query)
             else -> null
         }
     }
@@ -61,7 +63,41 @@ class KafkaQueryBus(
         return try {
             // Wait for the response
             val responseRecord = future.get(30, TimeUnit.SECONDS)
-            chatMapper.toDomain(responseRecord.value())
+            chatMapper.toFindChatIdsByUserIdResponse(responseRecord.value())
+        } catch (e: Exception) {
+            // Handle timeout or other exceptions
+            throw RuntimeException("Failed to get response for query", e)
+        } finally {
+            // Clean up the future
+            responseFutures.remove(correlationId)
+        }
+    }
+
+    private fun askFindChatQuery(query: FindChatQuery): Response? {
+        val correlationId = UUID.randomUUID()
+        val future = CompletableFuture<ConsumerRecord<UUID, String>>()
+        responseFutures[correlationId] = future
+
+        val headers = RecordHeaders().apply {
+            add("type", query::class.qualifiedName?.toByteArray())
+            add("correlationId", correlationId.toString().toByteArray())
+        }
+
+        val record = ProducerRecord(
+            queriesTopic,
+            null,
+            query.id,
+            userMapper.toDto(query),
+            headers
+        )
+
+        // Send request
+        producer.send(record)
+
+        return try {
+            // Wait for the response
+            val responseRecord = future.get(30, TimeUnit.SECONDS)
+            chatMapper.toFindChatQuery(responseRecord.value())
         } catch (e: Exception) {
             // Handle timeout or other exceptions
             throw RuntimeException("Failed to get response for query", e)

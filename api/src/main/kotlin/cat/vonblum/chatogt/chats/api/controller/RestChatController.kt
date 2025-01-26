@@ -2,6 +2,7 @@ package cat.vonblum.chatogt.chats.api.controller
 
 import cat.vonblum.chatogt.chats.api.dto.RestChatDto
 import cat.vonblum.chatogt.chats.api.mapper.RestChatMapper
+import cat.vonblum.chatogt.chats.chats.find.FindChatResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import org.springframework.http.HttpStatus
@@ -26,7 +27,11 @@ class RestChatController(
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun find(@PathVariable id: UUID): RestChatDto = mapper.toRest(queryBus.ask(mapper.toFindQuery(id)))
+    fun find(@PathVariable id: UUID): RestChatDto {
+        val query = mapper.toFindQuery(id)
+        val response = queryBus.ask(query)
+        return mapper.toRest(response as FindChatResponse)
+    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)

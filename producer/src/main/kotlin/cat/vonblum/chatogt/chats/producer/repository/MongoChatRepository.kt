@@ -1,5 +1,7 @@
 package cat.vonblum.chatogt.chats.producer.repository
 
+import cat.vonblum.chatogt.chats.chats.Chat
+import cat.vonblum.chatogt.chats.chats.ChatNotFoundError
 import cat.vonblum.chatogt.chats.producer.model.MongoAggregateIdProjection
 import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
@@ -24,6 +26,25 @@ internal class MongoChatRepository(
             template.getCollectionName(MongoChatCreatedEvent::class.java)
         )
         return mongoChatIds.map { ChatId(UUID.fromString(it.aggregateId)) }
+    }
+
+    override fun findById(id: ChatId): Chat {
+        val query = Query().addCriteria(Criteria.where("aggregateId").`is`(id.value.toString()))
+
+        // Find the document using MongoTemplate
+        val mongoChatCreatedEvent = template.findOne(
+            query,
+            MongoChatCreatedEvent::class.java,
+            template.getCollectionName(MongoChatCreatedEvent::class.java)
+        )
+
+        // Handle the case where no document is found
+        return mongoChatCreatedEvent?.let {
+            Chat(
+                ChatId(UUID.fromString(it.aggregateId)),
+                UserId(UUID.fromString(it.userId)),
+            )
+        } ?: throw ChatNotFoundError.becauseOf(id)
     }
 
 }

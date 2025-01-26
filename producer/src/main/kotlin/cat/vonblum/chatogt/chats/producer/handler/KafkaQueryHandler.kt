@@ -2,6 +2,8 @@ package cat.vonblum.chatogt.chats.producer.handler
 
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdHandler
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
+import cat.vonblum.chatogt.chats.chats.find.FindChatQueryHandler
 import cat.vonblum.chatogt.chats.producer.mapper.KafkaQueryMapper
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
 import org.apache.kafka.clients.consumer.ConsumerRecord
@@ -18,6 +20,7 @@ import java.util.*
 class KafkaQueryHandler(
     private val mapper: KafkaQueryMapper,
     private val findChatsByUserIdQuery: FindChatIdsByUserIdHandler,
+    private val findChatQueryHandler: FindChatQueryHandler,
     private val producer: KafkaProducer<UUID, String>,
     @Value("\${kafka.topics.responses}") private val responsesTopic: String
 ) {
@@ -30,7 +33,22 @@ class KafkaQueryHandler(
 
         when (type) {
             FindChatIdsByUserIdQuery::class -> {
-                val response = findChatsByUserIdQuery.handle(mapper.toFindChatsByUserId(record.value()))
+                val response = findChatsByUserIdQuery.handle(mapper.toFindChatIdsByUserIdQuery(record.value()))
+                val headers = RecordHeaders()
+                headers.add("type", response::class.qualifiedName?.toByteArray())
+                headers.add("correlationId", correlationId)
+                val responseRecord = ProducerRecord(
+                    responsesTopic,
+                    null,
+                    response.userId,
+                    mapper.toDto(response),
+                    headers
+                )
+                producer.send(responseRecord)
+            }
+
+            FindChatQuery::class -> {
+                val response = findChatQueryHandler.handle(mapper.toFindChatQuery(record.value()))
                 val headers = RecordHeaders()
                 headers.add("type", response::class.qualifiedName?.toByteArray())
                 headers.add("correlationId", correlationId)
