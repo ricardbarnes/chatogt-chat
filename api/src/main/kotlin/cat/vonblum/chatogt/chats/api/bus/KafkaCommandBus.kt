@@ -1,9 +1,8 @@
 package cat.vonblum.chatogt.chats.api.bus
 
-import cat.vonblum.chatogt.chats.api.mapper.KafkaChatCommandMapper
-import cat.vonblum.chatogt.chats.api.mapper.KafkaMessageCommandMapper
-import cat.vonblum.chatogt.chats.api.mapper.KafkaUserCommandMapper
+import cat.vonblum.chatogt.chats.api.mapper.KafkaCommandMapper
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
+import cat.vonblum.chatogt.chats.messages.create.CreateMessageCommand
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
@@ -20,9 +19,7 @@ import kotlin.reflect.KClass
 @DriverAdapter
 @Component
 class KafkaCommandBus(
-    private val chatMapper: KafkaChatCommandMapper,
-    private val messageMapper: KafkaMessageCommandMapper,
-    private val userMapper: KafkaUserCommandMapper,
+    private val mapper: KafkaCommandMapper,
     private val producer: KafkaProducer<UUID, String>,
     @Value("\${kafka.topics.commands}") private val topic: String
 ) : CommandBus {
@@ -31,6 +28,7 @@ class KafkaCommandBus(
         when (command) {
             is CreateUserCommand -> handleDispatching(command.id, command)
             is CreateChatCommand -> handleDispatching(command.id, command)
+            is CreateMessageCommand -> handleDispatching(command.id, command)
         }
     }
 
@@ -45,7 +43,7 @@ class KafkaCommandBus(
             topic,
             null,
             id,
-            chatMapper.toDto(command),
+            mapper.toDto(command),
             aHeaders(command::class)
         )
         producer.send(record).get()
