@@ -1,9 +1,11 @@
 package cat.vonblum.chatogt.chats.consumer.mapper
 
 import cat.vonblum.chatogt.chats.chats.ChatCreatedEvent
+import cat.vonblum.chatogt.chats.messages.MessageCreatedEvent
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
 import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoChatCreatedEvent
 import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoMessageCreatedEvent
 import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoUserCreatedEvent
 import cat.vonblum.chatogt.chats.users.UserCreatedEvent
 import org.springframework.stereotype.Component
@@ -15,6 +17,7 @@ class MongoMapper {
         return when (event) {
             is UserCreatedEvent -> map(event)
             is ChatCreatedEvent -> map(event)
+            is MessageCreatedEvent -> map(event)
             else -> {
                 throw RuntimeException() // TODO
             }
@@ -35,6 +38,16 @@ class MongoMapper {
             event.aggregateId.toString(),
             event.occurredOn,
             event.userId.toString()
+        )
+    }
+
+    private fun map(event: MessageCreatedEvent): MongoMessageCreatedEvent {
+        return MongoMessageCreatedEvent(
+            event.id.toString(),
+            event.aggregateId.toString(),
+            event.chatId.toString(),
+            event.content,
+            event.occurredOn
         )
     }
 

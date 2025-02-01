@@ -13,7 +13,15 @@ class Message(
     companion object {
 
         fun create(id: MessageId, chatId: ChatId, content: MessageContent): Message =
-            Message(id, chatId, content).also { message -> message.record(MessageCreatedEvent(message.id.value)) }
+            Message(id, chatId, content).also { message ->
+                message.record(
+                    MessageCreatedEvent(
+                        message.id.value,
+                        message.chatId.value,
+                        message._content.value
+                    )
+                )
+            }
 
     }
 
