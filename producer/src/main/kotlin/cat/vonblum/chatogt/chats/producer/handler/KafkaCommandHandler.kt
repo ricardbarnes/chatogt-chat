@@ -2,6 +2,8 @@ package cat.vonblum.chatogt.chats.producer.handler
 
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommand
 import cat.vonblum.chatogt.chats.chats.create.CreateChatCommandHandler
+import cat.vonblum.chatogt.chats.messages.create.CreateMessageCommand
+import cat.vonblum.chatogt.chats.messages.create.CreateMessageCommandHandler
 import cat.vonblum.chatogt.chats.producer.mapper.KafkaCommandMapper
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
@@ -16,7 +18,8 @@ import java.util.*
 class KafkaCommandHandler(
     private val mapper: KafkaCommandMapper,
     private val createUserCommandHandler: CreateUserCommandHandler,
-    private val createChatCommandHandler: CreateChatCommandHandler
+    private val createChatCommandHandler: CreateChatCommandHandler,
+    private val createMessageCommandHandler: CreateMessageCommandHandler,
 ) {
 
     @KafkaListener(topics = ["\${kafka.topics.commands}"])
@@ -31,6 +34,11 @@ class KafkaCommandHandler(
             CreateChatCommand::class -> {
                 val command = mapper.toDomain(record.value(), CreateChatCommand::class.java)
                 createChatCommandHandler.handle(command)
+            }
+
+            CreateMessageCommand::class -> {
+                val command = mapper.toDomain(record.value(), CreateMessageCommand::class.java)
+                createMessageCommandHandler.handle(command)
             }
         }
     }
