@@ -6,7 +6,6 @@ import java.util.UUID
 
 class UserCreatedEvent(
     aggregateId: UUID,
-    contactIds: List<UUID>,
     id: UUID = UUID.randomUUID(),
     occurredOn: Instant = Instant.now(),
 ) : Event(aggregateId, id, occurredOn)

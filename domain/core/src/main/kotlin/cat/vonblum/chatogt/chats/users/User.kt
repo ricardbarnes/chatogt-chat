@@ -10,12 +10,9 @@ class User(
 
     companion object {
 
-        fun create(id: UserId, ids: MutableSet<UserId>): User =
-            User(id, ids).also { user: User ->
-                user.record(UserCreatedEvent(
-                    id.value,
-                    ids.map { it.value }
-                ))
+        fun create(id: UserId): User =
+            User(id, mutableSetOf()).also { user: User ->
+                user.record(UserCreatedEvent(id.value))
             }
 
     }
