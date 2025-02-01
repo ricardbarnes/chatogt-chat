@@ -5,14 +5,23 @@ import cat.vonblum.chatogt.chats.shared.domain.aggregate.AggregateRoot
 
 class User(
     val id: UserId,
+    val name: UserName,
     val contactIds: MutableSet<UserId>,
 ) : AggregateRoot() {
 
     companion object {
 
-        fun create(id: UserId): User =
-            User(id, mutableSetOf()).also { user: User ->
-                user.record(UserCreatedEvent(id.value))
+        fun create(
+            id: UserId,
+            name: UserName
+        ): User =
+            User(id, name, mutableSetOf()).also { user: User ->
+                user.record(
+                    UserCreatedEvent(
+                        id.value,
+                        name.value
+                    )
+                )
             }
 
     }

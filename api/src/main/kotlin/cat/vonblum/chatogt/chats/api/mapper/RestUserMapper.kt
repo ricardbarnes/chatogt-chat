@@ -14,7 +14,10 @@ import java.util.*
 class RestUserMapper {
 
     fun toCreateCommand(dto: RestUserDto): CreateUserCommand {
-        return CreateUserCommand(dto.id)
+        return CreateUserCommand(
+            dto.id,
+            dto.name
+        )
     }
 
     fun toDeleteCommand(id: UUID): DeleteUserCommand {
