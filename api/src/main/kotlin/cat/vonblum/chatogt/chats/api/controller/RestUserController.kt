@@ -1,5 +1,6 @@
 package cat.vonblum.chatogt.chats.api.controller
 
+import cat.vonblum.chatogt.chats.api.dto.RestUserChatIdsDto
 import cat.vonblum.chatogt.chats.api.dto.RestUserDto
 import cat.vonblum.chatogt.chats.api.mapper.RestUserMapper
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
@@ -37,7 +38,7 @@ class RestUserController(
     }
 
     @GetMapping("/{id}/chats")
-    fun findChatsByUserId(@PathVariable id: UUID): RestUserDto {
+    fun findChatsByUserId(@PathVariable id: UUID): RestUserChatIdsDto {
         return queryBus.ask(mapper.toFindByUserIdQuery(id))
             ?.let { mapper.toDto(it as FindChatIdsByUserIdResponse) }
             ?: throw ResponseStatusException(

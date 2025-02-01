@@ -1,9 +1,8 @@
 package cat.vonblum.chatogt.chats.api.dto
 
-import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.UUID
 
-class RestUserDto @JsonCreator constructor(
+class RestUserDto(
     val id: UUID,
-    val chatIds: List<String>,
+    val contactIds: List<UUID>
 )

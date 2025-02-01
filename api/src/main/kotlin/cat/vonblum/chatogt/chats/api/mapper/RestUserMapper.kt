@@ -1,5 +1,6 @@
 package cat.vonblum.chatogt.chats.api.mapper
 
+import cat.vonblum.chatogt.chats.api.dto.RestUserChatIdsDto
 import cat.vonblum.chatogt.chats.api.dto.RestUserDto
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
@@ -13,10 +14,7 @@ import java.util.*
 class RestUserMapper {
 
     fun toCreateCommand(dto: RestUserDto): CreateUserCommand {
-        return CreateUserCommand(
-            dto.id,
-            dto.chatIds.map { UUID.fromString(it) }
-        )
+        return CreateUserCommand(dto.id)
     }
 
     fun toDeleteCommand(id: UUID): DeleteUserCommand {
@@ -31,8 +29,8 @@ class RestUserMapper {
         return FindChatIdsByUserIdQuery(id)
     }
 
-    fun toDto(response: FindChatIdsByUserIdResponse): RestUserDto {
-        return RestUserDto(
+    fun toDto(response: FindChatIdsByUserIdResponse): RestUserChatIdsDto {
+        return RestUserChatIdsDto(
             response.userId,
             response.chatIds.map { it.toString() }.toList()
         )
