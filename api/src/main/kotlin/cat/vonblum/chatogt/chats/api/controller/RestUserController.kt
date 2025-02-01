@@ -5,10 +5,10 @@ import cat.vonblum.chatogt.chats.api.mapper.RestUserMapper
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
-import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatus.*
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
-import java.util.UUID
+import java.util.*
 
 @RestController
 @RequestMapping("/users")
@@ -19,19 +19,19 @@ class RestUserController(
 ) {
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(CREATED)
     fun create(@RequestBody dto: RestUserDto) {
         commandBus.dispatch(mapper.toCreateCommand(dto))
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     fun delete(@PathVariable id: UUID) {
         commandBus.dispatch(mapper.toDeleteCommand(id))
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(OK)
     fun update(@RequestBody dto: RestUserDto) {
         commandBus.dispatch(mapper.toUpdateCommand(dto))
     }
@@ -41,7 +41,7 @@ class RestUserController(
         return queryBus.ask(mapper.toFindByUserIdQuery(id))
             ?.let { mapper.toDto(it as FindChatIdsByUserIdResponse) }
             ?: throw ResponseStatusException(
-                HttpStatus.NOT_FOUND,
+                NOT_FOUND,
                 "Chats not found for user with ID: $id"
             )
     }
