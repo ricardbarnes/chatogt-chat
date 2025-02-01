@@ -4,5 +4,5 @@ import java.util.UUID
 
 class RestUserDto(
     val id: UUID,
-    val contactIds: List<UUID>? = emptyList()
+    val contactIds: List<UUID>?
 )
