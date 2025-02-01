@@ -14,7 +14,11 @@ import java.util.*
 class RestMessageMapper {
 
     fun toCreateCommand(dto: RestMessageDto): CreateMessageCommand {
-        TODO("Not yet implemented")
+        return CreateMessageCommand(
+            dto.id,
+            dto.chatId,
+            dto.content
+        )
     }
 
     fun toDeleteCommand(id: UUID): DeleteMessageCommand {
