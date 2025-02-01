@@ -21,4 +21,5 @@ class KafkaMapper(private val gson: Gson) {
             ?.value()
             ?.toString(Charsets.UTF_8)
     }
+
 }
