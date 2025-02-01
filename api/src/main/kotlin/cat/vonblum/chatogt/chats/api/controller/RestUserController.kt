@@ -20,23 +20,30 @@ class RestUserController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody dto: RestUserDto) = commandBus.dispatch(mapper.toCreateCommand(dto))
+    fun create(@RequestBody dto: RestUserDto) {
+        commandBus.dispatch(mapper.toCreateCommand(dto))
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) = commandBus.dispatch(mapper.toDeleteCommand(id))
+    fun delete(@PathVariable id: UUID) {
+        commandBus.dispatch(mapper.toDeleteCommand(id))
+    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun update(@RequestBody dto: RestUserDto) = commandBus.dispatch(mapper.toUpdateCommand(dto))
+    fun update(@RequestBody dto: RestUserDto) {
+        commandBus.dispatch(mapper.toUpdateCommand(dto))
+    }
 
     @GetMapping("/{id}/chats")
-    fun findChatsByUserId(@PathVariable id: UUID): RestUserDto =
-        queryBus.ask(mapper.toFindByUserIdQuery(id))
+    fun findChatsByUserId(@PathVariable id: UUID): RestUserDto {
+        return queryBus.ask(mapper.toFindByUserIdQuery(id))
             ?.let { mapper.toDto(it as FindChatIdsByUserIdResponse) }
             ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
                 "Chats not found for user with ID: $id"
             )
+    }
 
 }

@@ -18,22 +18,32 @@ class RestMessageController(
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    fun create(@RequestBody dto: RestMessageDto) = commandBus.dispatch(mapper.toCreateCommand(dto))
+    fun create(@RequestBody dto: RestMessageDto) {
+        commandBus.dispatch(mapper.toCreateCommand(dto))
+    }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun delete(@PathVariable id: UUID) = commandBus.dispatch(mapper.toDeleteCommand(id))
+    fun delete(@PathVariable id: UUID) {
+        commandBus.dispatch(mapper.toDeleteCommand(id))
+    }
 
     @GetMapping("/{chatId}")
     @ResponseStatus(HttpStatus.OK)
-    fun findIds(@PathVariable chatId: UUID): RestMessageDto = mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(chatId)))
+    fun findIds(@PathVariable chatId: UUID): RestMessageDto {
+        return mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(chatId)))
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun find(@PathVariable id: UUID): RestMessageDto = mapper.toRest(queryBus.ask(mapper.toFindQuery(id)))
+    fun find(@PathVariable id: UUID): RestMessageDto {
+        return mapper.toRest(queryBus.ask(mapper.toFindQuery(id)))
+    }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    fun update(@RequestBody dto: RestMessageDto) = commandBus.dispatch(mapper.toUpdateCommand(dto))
+    fun update(@RequestBody dto: RestMessageDto) {
+        commandBus.dispatch(mapper.toUpdateCommand(dto))
+    }
 
 }
