@@ -5,6 +5,5 @@ import java.util.UUID
 class RestMessageDto(
     val id: UUID,
     val chatId: UUID,
-    val content: String,
-    val status: String
+    val content: String
 )
