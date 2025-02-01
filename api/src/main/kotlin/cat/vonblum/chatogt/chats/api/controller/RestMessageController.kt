@@ -29,12 +29,6 @@ class RestMessageController(
         commandBus.dispatch(mapper.toDeleteCommand(id))
     }
 
-    @GetMapping("/{chatId}")
-    @ResponseStatus(OK)
-    fun findIds(@PathVariable chatId: UUID): RestMessageDto {
-        return mapper.toRest(queryBus.ask(mapper.toFindIdsQuery(chatId)))
-    }
-
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     fun find(@PathVariable id: UUID): RestMessageDto {
