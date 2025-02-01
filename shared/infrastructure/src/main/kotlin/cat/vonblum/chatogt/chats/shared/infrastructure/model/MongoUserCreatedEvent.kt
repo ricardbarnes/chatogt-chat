@@ -10,5 +10,6 @@ import java.time.Instant
 class MongoUserCreatedEvent(
     id: String,
     aggregateId: String,
+    name: String,
     occurredOn: Instant,
 ) : MongoEvent(id, aggregateId, occurredOn)

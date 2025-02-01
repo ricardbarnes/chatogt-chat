@@ -2,8 +2,8 @@ group = "cat.vonblum"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
-    kotlin("jvm") version ("1.9.0")
-    kotlin("plugin.spring") version ("1.9.0")
+    kotlin("jvm") version ("2.0.21")
+    kotlin("plugin.spring") version ("2.0.21")
 }
 
 repositories {

@@ -28,6 +28,7 @@ class MongoMapper {
         return MongoUserCreatedEvent(
             event.id.toString(),
             event.aggregateId.toString(),
+            event.name,
             event.occurredOn
         )
     }

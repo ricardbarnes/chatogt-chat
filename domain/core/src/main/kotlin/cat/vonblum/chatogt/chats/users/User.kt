@@ -15,7 +15,7 @@ class User(
             id: UserId,
             name: UserName
         ): User =
-            User(id, name, mutableSetOf()).also { user: User ->
+            User(id, name, mutableSetOf()).also { user ->
                 user.record(
                     UserCreatedEvent(
                         id.value,
