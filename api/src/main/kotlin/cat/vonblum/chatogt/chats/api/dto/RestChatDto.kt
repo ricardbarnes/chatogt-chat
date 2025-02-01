@@ -4,5 +4,5 @@ import java.util.UUID
 
 class RestChatDto(
     val id: UUID,
-    val userId: UUID
+    val participantIds: List<UUID>
 )

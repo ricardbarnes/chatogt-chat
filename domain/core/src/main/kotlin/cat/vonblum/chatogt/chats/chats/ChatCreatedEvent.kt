@@ -5,7 +5,7 @@ import java.time.Instant
 import java.util.*
 
 class ChatCreatedEvent(
-    val userId: UUID,
+    val participantIds: List<UUID>,
     aggregateId: UUID,
     id: UUID = UUID.randomUUID(),
     occurredOn: Instant = Instant.now()

@@ -6,5 +6,6 @@ import java.util.UUID
 class CreateMessageCommand(
     val id: UUID,
     val chatId: UUID,
+    val authorId: UUID,
     val content: String
 ) : Command

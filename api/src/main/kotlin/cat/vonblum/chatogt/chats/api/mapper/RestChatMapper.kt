@@ -12,18 +12,29 @@ import java.util.*
 @Component
 class RestChatMapper {
 
-    fun toCreateCommand(dto: RestChatDto): CreateChatCommand = CreateChatCommand(dto.id, dto.userId)
+    fun toCreateCommand(dto: RestChatDto): CreateChatCommand {
+        return CreateChatCommand(
+            dto.id,
+            dto.participantIds
+        )
+    }
 
-    fun toDeleteCommand(id: UUID): DeleteChatCommand = DeleteChatCommand(id)
+    fun toDeleteCommand(id: UUID): DeleteChatCommand {
+        return DeleteChatCommand(id)
+    }
 
-    fun toFindQuery(userId: UUID): FindChatQuery = FindChatQuery(userId)
+    fun toFindQuery(userId: UUID): FindChatQuery {
+        return FindChatQuery(userId)
+    }
 
-    fun toUpdateCommand(dto: RestChatDto): Command = TODO()
+    fun toUpdateCommand(dto: RestChatDto): Command {
+        TODO()
+    }
 
     fun toRest(response: FindChatResponse): RestChatDto {
         return RestChatDto(
             response.id,
-            response.userId,
+            response.participantIds,
         )
     }
 

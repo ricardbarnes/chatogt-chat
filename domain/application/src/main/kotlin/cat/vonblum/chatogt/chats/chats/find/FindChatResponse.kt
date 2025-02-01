@@ -5,6 +5,5 @@ import java.util.UUID
 
 class FindChatResponse(
     val id: UUID,
-    val userId: UUID,
-    val status: String
+    val participantIds: List<UUID>
 ) : Response

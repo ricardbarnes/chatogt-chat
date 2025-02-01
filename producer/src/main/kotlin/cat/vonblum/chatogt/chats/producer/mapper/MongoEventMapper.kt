@@ -23,7 +23,7 @@ class MongoEventMapper {
 
     private fun aChatCreatedEvent(mongoEvent: MongoChatCreatedEvent): Event {
         return ChatCreatedEvent(
-            UUID.fromString(mongoEvent.userId),
+            mongoEvent.participantIds.map { UUID.fromString(it) },
             UUID.fromString(mongoEvent.aggregateId),
             UUID.fromString(mongoEvent.id),
             mongoEvent.occurredOn

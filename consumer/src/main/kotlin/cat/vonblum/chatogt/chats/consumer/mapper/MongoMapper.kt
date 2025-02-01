@@ -37,7 +37,7 @@ class MongoMapper {
             event.id.toString(),
             event.aggregateId.toString(),
             event.occurredOn,
-            event.userId.toString()
+            event.participantIds.map { it.toString() }
         )
     }
 

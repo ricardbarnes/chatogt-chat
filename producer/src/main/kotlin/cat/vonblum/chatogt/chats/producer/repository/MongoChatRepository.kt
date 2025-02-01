@@ -39,10 +39,10 @@ internal class MongoChatRepository(
         )
 
         // Handle the case where no document is found
-        return mongoChatCreatedEvent?.let {
+        return mongoChatCreatedEvent?.let { it ->
             Chat(
                 ChatId(UUID.fromString(it.aggregateId)),
-                UserId(UUID.fromString(it.userId)),
+                it.participantIds.map { UserId(UUID.fromString(it)) }.toMutableSet(),
             )
         } ?: throw ChatNotFoundError.becauseOf(id)
     }

@@ -12,8 +12,8 @@ class FindMessageIdsQueryHandler(private val finding: FindingMessages) : QueryHa
             finding.findAllByChatId(ChatId(query.chatId)).map {
                 mapOf(
                     "id" to it.id.value.toString(),
+                    "author_id" to it.authorId.value.toString(),
                     "content" to it.content.value,
-                    "status" to it.status.name
                 )
             }
         )

@@ -12,7 +12,7 @@ class CreateChatCommandHandler(
 
     fun handle(command: CreateChatCommand) = Chat.create(
         ChatId(command.id),
-        UserId(command.userId),
+        command.participantIds.map { UserId(it) }.toMutableSet(),
     ).let { chat ->
         eventBus.publish(chat.pullEvents())
     }

@@ -5,6 +5,7 @@ import cat.vonblum.chatogt.chats.messages.MessageContent
 import cat.vonblum.chatogt.chats.messages.MessageId
 import cat.vonblum.chatogt.chats.messages.ReportingMessages
 import cat.vonblum.chatogt.chats.shared.ChatId
+import cat.vonblum.chatogt.chats.shared.UserId
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandHandler
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
 
@@ -16,6 +17,7 @@ class CreateMessageCommandHandler(
     fun handle(command: CreateMessageCommand) = Message.create(
         MessageId(command.id),
         ChatId(command.chatId),
+        UserId(command.authorId),
         MessageContent(command.content)
     ).let { message ->
         reporting.report(message)

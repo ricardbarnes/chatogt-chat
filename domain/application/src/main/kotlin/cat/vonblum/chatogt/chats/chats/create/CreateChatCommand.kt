@@ -5,5 +5,5 @@ import java.util.*
 
 class CreateChatCommand(
     val id: UUID,
-    val userId: UUID,
+    val participantIds: List<UUID>,
 ) : Command

@@ -55,7 +55,7 @@ class KafkaQueryHandler(
                 val responseRecord = ProducerRecord(
                     responsesTopic,
                     null,
-                    response.userId,
+                    response.id,
                     mapper.toDto(response),
                     headers
                 )

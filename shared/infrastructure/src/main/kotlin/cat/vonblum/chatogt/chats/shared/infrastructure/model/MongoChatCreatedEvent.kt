@@ -11,5 +11,5 @@ class MongoChatCreatedEvent(
     id: String,
     aggregateId: String,
     occurredOn: Instant,
-    val userId: String
+    val participantIds: List<String>
 ) : MongoEvent(id, aggregateId, occurredOn)

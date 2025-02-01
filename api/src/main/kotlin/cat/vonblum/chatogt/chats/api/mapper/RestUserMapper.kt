@@ -12,11 +12,20 @@ import java.util.*
 @Component
 class RestUserMapper {
 
-    fun toCreateCommand(dto: RestUserDto): CreateUserCommand = CreateUserCommand(dto.id)
+    fun toCreateCommand(dto: RestUserDto): CreateUserCommand {
+        return CreateUserCommand(
+            dto.id,
+            dto.chatIds.map { UUID.fromString(it) }
+        )
+    }
 
-    fun toDeleteCommand(id: UUID): DeleteUserCommand = TODO()
+    fun toDeleteCommand(id: UUID): DeleteUserCommand {
+        TODO()
+    }
 
-    fun toUpdateCommand(dto: RestUserDto): Command = TODO()
+    fun toUpdateCommand(dto: RestUserDto): Command {
+        TODO()
+    }
 
     fun toFindByUserIdQuery(id: UUID): FindChatIdsByUserIdQuery {
         return FindChatIdsByUserIdQuery(id)

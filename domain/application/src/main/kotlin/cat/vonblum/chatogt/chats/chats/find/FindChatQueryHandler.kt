@@ -10,8 +10,7 @@ class FindChatQueryHandler(private val finding: FindingChats) : QueryHandler {
         finding.findById(ChatId(query.id)).let { chat ->
             FindChatResponse(
                 chat.id.value,
-                chat.userId.value,
-                chat.status.name
+                chat.participantIds.map { it.value }
             )
         }
 

@@ -11,7 +11,6 @@ class DeleteMessageCommandHandler(
 ) : CommandHandler {
 
     fun handle(command: DeleteMessageCommand) = finding.findById(MessageId(command.id)).let { message ->
-        message.delete()
         eventBus.publish(message.pullEvents())
     }
 

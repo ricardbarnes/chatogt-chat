@@ -17,6 +17,7 @@ class RestMessageMapper {
         return CreateMessageCommand(
             dto.id,
             dto.chatId,
+            dto.authorId,
             dto.content
         )
     }
