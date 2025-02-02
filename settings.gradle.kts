@@ -1,4 +1,4 @@
-rootProject.name = "chatogt-chats"
+rootProject.name = "chatogt-chat"
 
 include(
     ":domain:core",
