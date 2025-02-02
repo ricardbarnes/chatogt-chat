@@ -5,13 +5,15 @@ import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandHandler
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
+import cat.vonblum.chatogt.chats.shared.domain.generator.IdGenerator
 
 class CreateChatCommandHandler(
-    private val eventBus: EventBus
+    private val eventBus: EventBus,
+    private val idGenerator: IdGenerator,
 ) : CommandHandler {
 
     fun handle(command: CreateChatCommand) = Chat.create(
-        ChatId(command.id),
+        ChatId(idGenerator.next()),
         command.participantIds.map { UserId(it) }.toMutableSet(),
     ).let { chat ->
         eventBus.publish(chat.pullEvents())

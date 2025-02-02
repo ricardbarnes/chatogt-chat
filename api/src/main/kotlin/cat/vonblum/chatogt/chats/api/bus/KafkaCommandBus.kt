@@ -26,9 +26,9 @@ class KafkaCommandBus(
 
     override fun dispatch(command: Command) {
         when (command) {
-            is CreateUserCommand -> handleDispatching(command.id, command)
-            is CreateChatCommand -> handleDispatching(command.id, command)
-            is CreateMessageCommand -> handleDispatching(command.id, command)
+            is CreateUserCommand -> handleDispatching(command)
+            is CreateChatCommand -> handleDispatching(command)
+            is CreateMessageCommand -> handleDispatching(command)
         }
     }
 
@@ -38,11 +38,11 @@ class KafkaCommandBus(
         return headers
     }
 
-    private fun handleDispatching(id: UUID, command: Command) {
+    private fun handleDispatching(command: Command) {
         val record = ProducerRecord(
             topic,
             null,
-            id,
+            UUID.randomUUID(),
             mapper.toDto(command),
             aHeaders(command::class)
         )

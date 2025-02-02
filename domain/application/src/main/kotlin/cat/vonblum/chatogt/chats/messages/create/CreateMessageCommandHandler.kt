@@ -8,14 +8,16 @@ import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandHandler
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
+import cat.vonblum.chatogt.chats.shared.domain.generator.IdGenerator
 
 class CreateMessageCommandHandler(
     private val eventBus: EventBus,
+    private val idGenerator: IdGenerator,
     private val reporting: ReportingMessages
 ) : CommandHandler {
 
     fun handle(command: CreateMessageCommand) = Message.create(
-        MessageId(command.id),
+        MessageId(idGenerator.next()),
         ChatId(command.chatId),
         UserId(command.authorId),
         MessageContent(command.content)

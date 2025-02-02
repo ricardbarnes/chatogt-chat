@@ -16,7 +16,11 @@ import cat.vonblum.chatogt.chats.messages.update.UpdateMessageCommandHandler
 import cat.vonblum.chatogt.chats.shared.domain.annotation.HandlerDefinition
 import cat.vonblum.chatogt.chats.shared.domain.annotation.HandlerRegistry
 import cat.vonblum.chatogt.chats.shared.domain.event.EventBus
+import cat.vonblum.chatogt.chats.shared.domain.generator.HashGenerator
+import cat.vonblum.chatogt.chats.shared.domain.generator.IdGenerator
 import cat.vonblum.chatogt.chats.shared.domain.handler.Handler
+import cat.vonblum.chatogt.chats.shared.infrastructure.generator.Argon2HashGenerator
+import cat.vonblum.chatogt.chats.shared.infrastructure.generator.GenericIdGenerator
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommandHandler
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommandHandler
 import cat.vonblum.chatogt.chats.users.update.UpdateUserCommandHandler
@@ -25,6 +29,16 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class SpringProducerHandlerConfig {
+
+    @Bean
+    fun idGenerator(): IdGenerator {
+        return GenericIdGenerator()
+    }
+
+    @Bean
+    fun hashGenerator(): HashGenerator {
+        return Argon2HashGenerator()
+    }
 
     @Bean
     fun handler(handlers: List<Any>): Handler {
@@ -67,8 +81,12 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun createUserCommandHandler(eventBus: EventBus): CreateUserCommandHandler {
-        return CreateUserCommandHandler(eventBus)
+    fun createUserCommandHandler(
+        eventBus: EventBus,
+        idGenerator: IdGenerator,
+        hashGenerator: HashGenerator,
+    ): CreateUserCommandHandler {
+        return CreateUserCommandHandler(eventBus, idGenerator, hashGenerator)
     }
 
     @HandlerDefinition
@@ -85,8 +103,11 @@ class SpringProducerHandlerConfig {
 
     @HandlerDefinition
     @Bean
-    fun createChatCommandHandler(eventBus: EventBus): CreateChatCommandHandler {
-        return CreateChatCommandHandler(eventBus)
+    fun createChatCommandHandler(
+        eventBus: EventBus,
+        idGenerator: IdGenerator,
+    ): CreateChatCommandHandler {
+        return CreateChatCommandHandler(eventBus, idGenerator)
     }
 
     @HandlerDefinition
@@ -123,10 +144,12 @@ class SpringProducerHandlerConfig {
     @Bean
     fun createMessageCommandHandler(
         eventBus: EventBus,
+        idGenerator: IdGenerator,
         reportingMessages: ReportingMessages
     ): CreateMessageCommandHandler {
         return CreateMessageCommandHandler(
             eventBus,
+            idGenerator,
             reportingMessages
         )
     }

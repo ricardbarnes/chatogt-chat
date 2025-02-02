@@ -13,10 +13,7 @@ import java.util.*
 class RestChatMapper {
 
     fun toCreateCommand(dto: RestChatDto): CreateChatCommand {
-        return CreateChatCommand(
-            dto.id,
-            dto.participantIds
-        )
+        return CreateChatCommand(dto.participantIds)
     }
 
     fun toDeleteCommand(id: UUID): DeleteChatCommand {

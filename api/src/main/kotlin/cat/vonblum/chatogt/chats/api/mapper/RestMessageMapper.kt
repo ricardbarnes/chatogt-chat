@@ -15,7 +15,6 @@ class RestMessageMapper {
 
     fun toCreateCommand(dto: RestMessageDto): CreateMessageCommand {
         return CreateMessageCommand(
-            dto.id,
             dto.chatId,
             dto.authorId,
             dto.content

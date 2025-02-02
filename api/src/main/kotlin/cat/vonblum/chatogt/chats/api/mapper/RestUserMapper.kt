@@ -15,7 +15,6 @@ class RestUserMapper {
 
     fun toCreateCommand(dto: RestUserDto): CreateUserCommand {
         return CreateUserCommand(
-            dto.id,
             dto.name,
             dto.password
         )
