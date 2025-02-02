@@ -5,5 +5,6 @@ import java.util.UUID
 
 class CreateUserCommand(
     val id: UUID,
-    val name: String
+    val name: String,
+    val password: String
 ) : Command

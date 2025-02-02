@@ -29,6 +29,7 @@ class MongoMapper {
             event.id.toString(),
             event.aggregateId.toString(),
             event.name,
+            event.password,
             event.occurredOn
         )
     }

@@ -1,11 +1,11 @@
 rootProject.name = "chatogt-chats"
 
 include(
+    ":domain:core",
+    ":domain:application",
+    ":shared:domain",
+    ":shared:infrastructure",
     ":api",
     ":consumer",
-    ":domain:application",
-    ":domain:core",
-    ":producer",
-    ":shared:domain",
-    ":shared:infrastructure"
+    ":producer"
 )

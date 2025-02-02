@@ -11,5 +11,6 @@ class MongoUserCreatedEvent(
     id: String,
     aggregateId: String,
     val name: String,
+    val password: String,
     occurredOn: Instant,
 ) : MongoEvent(id, aggregateId, occurredOn)

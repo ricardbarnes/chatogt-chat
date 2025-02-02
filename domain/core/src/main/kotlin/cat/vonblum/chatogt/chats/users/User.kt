@@ -6,6 +6,7 @@ import cat.vonblum.chatogt.chats.shared.domain.aggregate.AggregateRoot
 class User(
     val id: UserId,
     val name: UserName,
+    val password: UserPassword,
     val contactIds: MutableSet<UserId>,
 ) : AggregateRoot() {
 
@@ -13,13 +14,15 @@ class User(
 
         fun create(
             id: UserId,
-            name: UserName
+            name: UserName,
+            password: UserPassword,
         ): User =
-            User(id, name, mutableSetOf()).also { user ->
+            User(id, name, password, mutableSetOf()).also { user ->
                 user.record(
                     UserCreatedEvent(
                         id.value,
-                        name.value
+                        name.value,
+                        password.value,
                     )
                 )
             }
