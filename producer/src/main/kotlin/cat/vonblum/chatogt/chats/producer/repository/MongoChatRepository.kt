@@ -18,7 +18,7 @@ internal class MongoChatRepository(
 ) : ChatRepository {
 
     override fun findAllIdsByUserId(userId: UserId): List<ChatId> {
-        val query = Query().addCriteria(Criteria.where("userId").`is`(userId.value.toString()))
+        val query = Query().addCriteria(Criteria.where("participantIds").`in`(userId.value.toString()))
         query.fields().include("aggregateId")
         val mongoChatIds = template.find(
             query,
