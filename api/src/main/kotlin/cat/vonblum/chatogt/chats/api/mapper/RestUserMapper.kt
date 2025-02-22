@@ -7,6 +7,8 @@ import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.Command
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommand
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommand
+import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameQuery
+import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameResponse
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -30,6 +32,16 @@ class RestUserMapper {
 
     fun toFindByUserIdQuery(id: UUID): FindChatIdsByUserIdQuery {
         return FindChatIdsByUserIdQuery(id)
+    }
+
+    fun toFindByNameQuery(name: String): FindUserIdByNameQuery {
+        return FindUserIdByNameQuery(name)
+    }
+
+    fun toDto(response: FindUserIdByNameResponse): RestUserDto {
+        val dto = RestUserDto()
+        dto.id = response.id
+        return dto
     }
 
     fun toDto(response: FindChatIdsByUserIdResponse): RestUserChatIdsDto {

@@ -2,9 +2,9 @@ package cat.vonblum.chatogt.chats.api.dto
 
 import java.util.UUID
 
-class RestUserDto(
-    val id: UUID?,
-    val name: String,
-    val password: String,
-    val contactIds: List<UUID>?
-)
+class RestUserDto {
+    var id: UUID? = null
+    var name: String = ""
+    var password: String = ""
+    var contactIds: List<UUID>? = emptyList()
+}

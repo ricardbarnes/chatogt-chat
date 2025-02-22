@@ -8,6 +8,7 @@ import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
+import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameQuery
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -35,6 +36,7 @@ class KafkaQueryBus(
         return when (query) {
             is FindChatIdsByUserIdQuery -> askFindChatsByUserIdQuery(query)
             is FindChatQuery -> askFindChatQuery(query)
+            is FindUserIdByNameQuery -> askFindUserIdByNameQuery(query)
             else -> null
         }
     }
@@ -98,6 +100,40 @@ class KafkaQueryBus(
             // Wait for the response
             val responseRecord = future.get(30, TimeUnit.SECONDS)
             chatMapper.toFindChatQuery(responseRecord.value())
+        } catch (e: Exception) {
+            // Handle timeout or other exceptions
+            throw RuntimeException("Failed to get response for query", e)
+        } finally {
+            // Clean up the future
+            responseFutures.remove(correlationId)
+        }
+    }
+
+    private fun askFindUserIdByNameQuery(query: FindUserIdByNameQuery): Response? {
+        val correlationId = UUID.randomUUID()
+        val future = CompletableFuture<ConsumerRecord<UUID, String>>()
+        responseFutures[correlationId] = future
+
+        val headers = RecordHeaders().apply {
+            add("type", query::class.qualifiedName?.toByteArray())
+            add("correlationId", correlationId.toString().toByteArray())
+        }
+
+        val record = ProducerRecord(
+            queriesTopic,
+            null,
+            UUID.randomUUID(),
+            userMapper.toDto(query),
+            headers
+        )
+
+        // Send request
+        producer.send(record)
+
+        return try {
+            // Wait for the response
+            val responseRecord = future.get(30, TimeUnit.SECONDS)
+            userMapper.toFindUserIdByNameQuery(responseRecord.value())
         } catch (e: Exception) {
             // Handle timeout or other exceptions
             throw RuntimeException("Failed to get response for query", e)

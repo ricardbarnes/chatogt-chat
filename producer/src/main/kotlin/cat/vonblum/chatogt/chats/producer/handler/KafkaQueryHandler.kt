@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.producer.handler
 
-import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdHandler
+import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQueryHandler
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdQuery
 import cat.vonblum.chatogt.chats.chats.find.FindChatQuery
 import cat.vonblum.chatogt.chats.chats.find.FindChatQueryHandler
@@ -19,7 +19,7 @@ import java.util.*
 @Component
 class KafkaQueryHandler(
     private val mapper: KafkaQueryMapper,
-    private val findChatsByUserIdQuery: FindChatIdsByUserIdHandler,
+    private val findChatsByUserIdQuery: FindChatIdsByUserIdQueryHandler,
     private val findChatQueryHandler: FindChatQueryHandler,
     private val producer: KafkaProducer<UUID, String>,
     @Value("\${kafka.topics.responses}") private val responsesTopic: String
