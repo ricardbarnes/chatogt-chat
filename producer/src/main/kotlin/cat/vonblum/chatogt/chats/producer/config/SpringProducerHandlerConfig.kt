@@ -24,8 +24,7 @@ import cat.vonblum.chatogt.chats.shared.infrastructure.generator.GenericIdGenera
 import cat.vonblum.chatogt.chats.users.FindingUsers
 import cat.vonblum.chatogt.chats.users.create.CreateUserCommandHandler
 import cat.vonblum.chatogt.chats.users.delete.DeleteUserCommandHandler
-import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameQuery
-import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameQueryHandler
+import cat.vonblum.chatogt.chats.users.find.FindUserByNameQueryHandler
 import cat.vonblum.chatogt.chats.users.update.UpdateUserCommandHandler
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -64,7 +63,7 @@ class SpringProducerHandlerConfig {
         updateUserCommandHandler: UpdateUserCommandHandler,
         deleteUserCommandHandler: DeleteUserCommandHandler,
         findChatIdsByUserIdQueryHandler: FindChatIdsByUserIdQueryHandler,
-        findUserIdByNameQueryHandler: FindUserIdByNameQueryHandler
+        findUserByNameQueryHandler: FindUserByNameQueryHandler
     ): List<Any> {
         return listOf(
             createChatCommandHandler,
@@ -80,7 +79,7 @@ class SpringProducerHandlerConfig {
             updateUserCommandHandler,
             deleteUserCommandHandler,
             findChatIdsByUserIdQueryHandler,
-            findUserIdByNameQueryHandler,
+            findUserByNameQueryHandler,
         )
     }
 
@@ -213,8 +212,8 @@ class SpringProducerHandlerConfig {
     @Bean
     fun findUserIdByNameQueryHandler(
         findingUsers: FindingUsers
-    ): FindUserIdByNameQueryHandler {
-        return FindUserIdByNameQueryHandler(findingUsers)
+    ): FindUserByNameQueryHandler {
+        return FindUserByNameQueryHandler(findingUsers)
     }
 
 }

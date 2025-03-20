@@ -1,21 +1,20 @@
-package cat.vonblum.chatogt.chats.producer.repository
+package cat.vonblum.chatogt.chats.producer.repository.impl
 
 import cat.vonblum.chatogt.chats.chats.Chat
-import cat.vonblum.chatogt.chats.chats.ChatNotFoundError
+import cat.vonblum.chatogt.chats.chats.ChatNotFound
 import cat.vonblum.chatogt.chats.producer.model.MongoAggregateIdProjection
+import cat.vonblum.chatogt.chats.producer.repository.ChatRepository
 import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
 import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoChatCreatedEvent
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Repository
 import java.util.*
 
-@Component
-internal class MongoChatRepository(
-    private val template: MongoTemplate
-) : ChatRepository {
+@Repository
+internal class MongoChatRepository(private val template: MongoTemplate) : ChatRepository {
 
     override fun findAllIdsByUserId(userId: UserId): List<ChatId> {
         val query = Query().addCriteria(Criteria.where("participantIds").`in`(userId.value.toString()))
@@ -44,7 +43,7 @@ internal class MongoChatRepository(
                 ChatId(UUID.fromString(it.aggregateId)),
                 it.participantIds.map { UserId(UUID.fromString(it)) }.toMutableSet(),
             )
-        } ?: throw ChatNotFoundError.becauseOf(id)
+        } ?: throw ChatNotFound.becauseOf(id)
     }
 
 }

@@ -8,7 +8,7 @@ import cat.vonblum.chatogt.chats.shared.domain.query.Query
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
 import cat.vonblum.chatogt.chats.shared.domain.query.Response
 import cat.vonblum.chatogt.chats.shared.infrastructure.annotation.DriverAdapter
-import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameQuery
+import cat.vonblum.chatogt.chats.users.find.FindUserByNameQuery
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -36,7 +36,7 @@ class KafkaQueryBus(
         return when (query) {
             is FindChatIdsByUserIdQuery -> askFindChatsByUserIdQuery(query)
             is FindChatQuery -> askFindChatQuery(query)
-            is FindUserIdByNameQuery -> askFindUserIdByNameQuery(query)
+            is FindUserByNameQuery -> askFindUserByNameQuery(query)
             else -> null
         }
     }
@@ -109,7 +109,7 @@ class KafkaQueryBus(
         }
     }
 
-    private fun askFindUserIdByNameQuery(query: FindUserIdByNameQuery): Response? {
+    private fun askFindUserByNameQuery(query: FindUserByNameQuery): Response? {
         val correlationId = UUID.randomUUID()
         val future = CompletableFuture<ConsumerRecord<UUID, String>>()
         responseFutures[correlationId] = future

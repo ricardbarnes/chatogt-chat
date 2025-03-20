@@ -6,7 +6,7 @@ import cat.vonblum.chatogt.chats.api.mapper.RestUserMapper
 import cat.vonblum.chatogt.chats.chats.find.FindChatIdsByUserIdResponse
 import cat.vonblum.chatogt.chats.shared.domain.command.CommandBus
 import cat.vonblum.chatogt.chats.shared.domain.query.QueryBus
-import cat.vonblum.chatogt.chats.users.find.FindUserIdByNameResponse
+import cat.vonblum.chatogt.chats.users.find.FindUserByNameResponse
 import org.springframework.http.HttpStatus.*
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -51,7 +51,7 @@ class RestUserController(
     @GetMapping
     fun findByName(@RequestParam name: String): RestUserDto {
         return queryBus.ask(mapper.toFindByNameQuery(name))
-            ?.let { mapper.toDto(it as FindUserIdByNameResponse) }
+            ?.let { mapper.toDto(it as FindUserByNameResponse) }
             ?: throw ResponseStatusException(
                 NOT_FOUND,
                 "User not found with name: $name"
