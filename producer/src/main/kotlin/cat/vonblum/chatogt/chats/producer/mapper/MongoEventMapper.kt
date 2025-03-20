@@ -2,8 +2,8 @@ package cat.vonblum.chatogt.chats.producer.mapper
 
 import cat.vonblum.chatogt.chats.chats.ChatCreatedEvent
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
-import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoChatCreatedEvent
-import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.model.MongoChatCreatedEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.model.MongoEvent
 import org.springframework.stereotype.Component
 import java.util.*
 

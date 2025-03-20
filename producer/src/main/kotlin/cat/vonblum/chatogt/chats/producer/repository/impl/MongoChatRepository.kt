@@ -6,7 +6,7 @@ import cat.vonblum.chatogt.chats.producer.model.MongoAggregateIdProjection
 import cat.vonblum.chatogt.chats.producer.repository.ChatRepository
 import cat.vonblum.chatogt.chats.shared.ChatId
 import cat.vonblum.chatogt.chats.shared.UserId
-import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoChatCreatedEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.model.MongoChatCreatedEvent
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query

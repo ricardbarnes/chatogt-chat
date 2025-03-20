@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.shared.infrastructure.serializer
+package cat.vonblum.chatogt.chats.shared.infrastructure.io.serializer
 
 import com.google.gson.*
 import java.lang.reflect.Type

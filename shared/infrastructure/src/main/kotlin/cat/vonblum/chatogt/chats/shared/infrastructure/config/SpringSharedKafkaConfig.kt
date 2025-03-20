@@ -1,6 +1,6 @@
 package cat.vonblum.chatogt.chats.shared.infrastructure.config
 
-import cat.vonblum.chatogt.chats.shared.infrastructure.serializer.GsonInstantTypeAdapter
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.serializer.GsonInstantTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.apache.kafka.clients.consumer.ConsumerConfig

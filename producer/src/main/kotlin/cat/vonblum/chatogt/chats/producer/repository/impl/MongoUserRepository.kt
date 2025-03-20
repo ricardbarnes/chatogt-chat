@@ -3,7 +3,7 @@ package cat.vonblum.chatogt.chats.producer.repository.impl
 import cat.vonblum.chatogt.chats.producer.mapper.MongoUserMapper
 import cat.vonblum.chatogt.chats.producer.model.MongoUserProjection
 import cat.vonblum.chatogt.chats.producer.repository.UserRepository
-import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoUserCreatedEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.model.MongoUserCreatedEvent
 import cat.vonblum.chatogt.chats.users.User
 import cat.vonblum.chatogt.chats.users.UserName
 import org.springframework.data.mongodb.core.MongoTemplate

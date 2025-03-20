@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.shared.infrastructure.model
+package cat.vonblum.chatogt.chats.shared.infrastructure.io.model
 
 import cat.vonblum.chatogt.chats.shared.domain.annotation.UsedBy
 import org.springframework.data.annotation.Id

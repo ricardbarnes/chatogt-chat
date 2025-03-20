@@ -4,7 +4,7 @@ import cat.vonblum.chatogt.chats.chats.ChatCreatedEvent
 import cat.vonblum.chatogt.chats.producer.mapper.MongoEventMapper
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
 import cat.vonblum.chatogt.chats.shared.domain.valueobject.Id
-import cat.vonblum.chatogt.chats.shared.infrastructure.model.MongoEvent
+import cat.vonblum.chatogt.chats.shared.infrastructure.io.model.MongoEvent
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.Criteria
 import org.springframework.data.mongodb.core.query.Query

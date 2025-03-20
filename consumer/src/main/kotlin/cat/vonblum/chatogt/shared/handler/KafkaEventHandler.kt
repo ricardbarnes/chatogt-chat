@@ -1,6 +1,6 @@
-package cat.vonblum.chatogt.chats.consumer.handler
+package cat.vonblum.chatogt.shared.handler
 
-import cat.vonblum.chatogt.chats.consumer.mapper.KafkaMapper
+import cat.vonblum.chatogt.shared.mapper.KafkaMapper
 import cat.vonblum.chatogt.chats.consumer.store.WriteStore
 import org.apache.kafka.clients.consumer.ConsumerRecord
 import org.springframework.kafka.annotation.KafkaListener

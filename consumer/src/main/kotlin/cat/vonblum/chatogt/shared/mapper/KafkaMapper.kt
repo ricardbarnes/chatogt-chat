@@ -1,4 +1,4 @@
-package cat.vonblum.chatogt.chats.consumer.mapper
+package cat.vonblum.chatogt.shared.mapper
 
 import cat.vonblum.chatogt.chats.shared.domain.event.Event
 import com.google.gson.Gson
